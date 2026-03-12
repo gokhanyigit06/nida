@@ -30,7 +30,7 @@ const Header = () => {
 
         {/* Desktop CTA */}
         <Link href="/contact" className="hidden md:block no-underline">
-          <div className="font-bold text-lg text-[#ff5e3b] flex items-center gap-1 group">
+          <div className="font-bold text-3xl text-[#cc0000] flex items-center gap-1 group">
             Let's Talk <span className="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </Link>
