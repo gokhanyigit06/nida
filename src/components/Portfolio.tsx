@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
+import Link from 'next/link';
 
 const Portfolio = () => {
     const [works, setWorks] = useState<any[]>([]);
@@ -25,14 +26,14 @@ const Portfolio = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
         {works.map((work, index) => (
-          <motion.div 
-            key={work.id}
+          <Link key={work.id} href={`/work/${work.id}`}>
+          <motion.div
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="rounded-[40px] p-8 md:p-12 relative overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-between"
-            style={{ 
+            className="rounded-[40px] p-8 md:p-12 relative overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-between cursor-pointer"
+            style={{
                 backgroundColor: work.bgColor || '#fbc9f2',
                 color: work.textColor || '#000'
             }}
@@ -45,7 +46,7 @@ const Portfolio = () => {
 
             {/* Laptop Mockup Area */}
             <div className="w-full h-[300px] md:h-[400px] bg-white rounded-[32px] my-8 flex items-center justify-center overflow-hidden shadow-2xl transition-transform hover:scale-[1.02] duration-500">
-              <img src={work.imageUrl} alt={work.title} className="w-full h-full object-cover" />
+              {(() => { const url = work.imagePlaceholder || work.imageUrl; return url ? /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url) ? <video src={url} className="w-full h-full object-cover" autoPlay muted loop playsInline /> : <img src={url} alt={work.title} className="w-full h-full object-cover" /> : null; })()}
             </div>
 
             {/* Bottom Info */}
@@ -58,6 +59,7 @@ const Portfolio = () => {
               </div>
             </div>
           </motion.div>
+          </Link>
         ))}
       </div>
     </section>

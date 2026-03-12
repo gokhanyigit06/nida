@@ -222,7 +222,11 @@ const AdminPortfolio = () => {
         {works.map(work => (
           <div key={work.id} style={{ backgroundColor: 'white', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s' }}>
             <div style={{ height: '200px', backgroundColor: work.bgColor || '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-              <img src={work.imageUrl} alt={work.title} style={{ height: '70%', width: '70%', objectFit: 'contain' }} />
+              {work.imageUrl
+                ? /\.(mp4|webm|ogg|mov)(\?|$)/i.test(work.imageUrl)
+                  ? <video src={work.imageUrl} style={{ height: '70%', width: '70%', objectFit: 'contain' }} autoPlay muted loop playsInline />
+                  : <img src={work.imageUrl} alt={work.title} style={{ height: '70%', width: '70%', objectFit: 'contain' }} />
+                : null}
             </div>
             <div style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>

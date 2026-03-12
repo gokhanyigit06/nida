@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
@@ -118,16 +117,6 @@ const Hero = () => {
           <div className="text-white font-black text-2xl md:text-3xl leading-none whitespace-pre-wrap tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
             {bottomTitle}
           </div>
-          <Link href="/contact" className="w-full md:w-auto">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-black w-full md:w-auto px-10 py-5 rounded-full font-black text-xl flex justify-center items-center gap-2 transition-all shadow-2xl"
-              style={{ fontFamily: 'var(--font-archivo-black)' }}
-            >
-              LET'S TALK <span className="text-2xl">→</span>
-            </motion.button>
-          </Link>
         </div>
 
         <div className="max-w-[320px] text-left md:text-right opacity-80">

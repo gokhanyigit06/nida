@@ -1,27 +1,34 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { Loader2 } from 'lucide-react';
 
-const ProjectDetailPage = () => {
+const isVideo = (url: string) => /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
+
+const MediaBlock = ({ url, alt, className }: { url: string; alt: string; className?: string }) => {
+    if (!url) return null;
+    return isVideo(url)
+        ? <video src={url} autoPlay loop muted playsInline className={className || "w-full h-full object-cover"} />
+        : <img src={url} alt={alt} className={className || "w-full h-full object-cover"} />;
+};
+
+export default function WorkDetailPage() {
     const { id } = useParams();
     const [project, setProject] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [caseExpanded, setCaseExpanded] = useState(false);
 
     useEffect(() => {
         const fetchProject = async () => {
             if (!id) return;
             try {
-                const docRef = doc(db, 'portfolio', id as string);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setProject({ id: docSnap.id, ...docSnap.data() });
-                }
+                const docSnap = await getDoc(doc(db, 'portfolio', id as string));
+                if (docSnap.exists()) setProject({ id: docSnap.id, ...docSnap.data() });
             } catch (err) {
                 console.error("Error fetching project:", err);
             } finally {
@@ -31,169 +38,196 @@ const ProjectDetailPage = () => {
         fetchProject();
     }, [id]);
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-    if (!project) return <div className="min-h-screen flex items-center justify-center">Project not found.</div>;
+    if (loading) return (
+        <main className="min-h-screen bg-white flex flex-col items-center justify-center">
+            <Loader2 className="w-10 h-10 animate-spin text-black/20" />
+        </main>
+    );
+    if (!project) return (
+        <main className="min-h-screen bg-white flex flex-col items-center justify-center">
+            <p className="font-bold text-black/40 uppercase tracking-widest">Proje bulunamadı.</p>
+        </main>
+    );
 
-    const stats = project.stats || [
-        { value: '+310%', label: 'increase in organic website traffic in 8 months.' },
-        { value: '+45%', label: 'Reduced bounce rate by 45% with optimized UX and structure.' },
-        { value: '+140%', label: 'growth in lead conversions from SEO-driven content.' }
-    ];
-
-    const media = project.media || [
-        { type: 'image', url: project.imageUrl }
-    ];
+    const heroUrl = project.heroImage || project.imageUrl || '';
+    const conclusionUrl = project.conclusionImage || '';
+    const extraMediaRows: any[] = project.extraMediaRows || [];
+    const services: string[] = Array.isArray(project.services) ? project.services : project.category ? [project.category] : [];
+    const descriptionParagraphs: string[] = Array.isArray(project.description)
+        ? project.description
+        : project.overview ? [project.overview] : [];
+    const stats: any[] = project.stats || [];
 
     return (
-        <main className="min-h-screen bg-white overflow-x-hidden">
+        <main className="min-h-screen bg-[#f3f3f3] text-black font-sans overflow-x-hidden pb-32">
             <Header />
 
-            {/* Hero Section */}
-            <section className="relative h-[45vh] md:h-[65vh] w-full bg-[#1D6BFF] overflow-hidden flex flex-col items-center justify-center pt-32 md:pt-24 text-center">
-                <div className="absolute inset-0 pointer-events-none z-0" 
-                    style={{ 
-                        backgroundImage: 'radial-gradient(rgba(255,255,255,0.2) 2px, transparent 0)', 
-                        backgroundSize: '24px 24px' 
-                    }} 
-                />
-                
-                <motion.h1 
-                    initial={{ y: 50, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative z-10 text-[22vw] md:text-[14vw] text-white font-normal uppercase leading-none select-none tracking-tighter px-6"
-                    style={{ fontFamily: 'var(--font-bebas-neue)' }}
+            {/* Hero Banner */}
+            <section className="w-full pt-28 md:pt-36 px-4 md:px-8 lg:px-12 flex justify-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="w-full max-w-[1700px] aspect-[16/9] md:h-[70vh] md:aspect-auto lg:h-[85vh] relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl bg-gray-200"
                 >
-                    {project.title}
-                </motion.h1>
+                    {heroUrl && <MediaBlock url={heroUrl} alt={project.title} />}
+                </motion.div>
+            </section>
 
-                <motion.div 
-                    animate={{ rotate: 360, scale: [1, 1.2, 1] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                    className="absolute bottom-12 md:bottom-16 right-[5%] md:right-[10%] text-white opacity-40 scale-75 md:scale-100"
+            {/* Başlık & Metadata */}
+            <section className="w-full max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-14 mt-8 md:mt-12">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="flex flex-col mb-8 md:mb-10"
                 >
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                    </svg>
+                    <span className="text-[12px] md:text-[14px] tracking-widest uppercase text-black/40 mb-2" style={{ fontFamily: 'var(--font-archivo-black)' }}>
+                        PROJECT
+                    </span>
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[80px] uppercase text-black leading-[1] tracking-tight" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
+                        {project.title}
+                    </h1>
                 </motion.div>
 
-                <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] transform translate-y-1">
-                    <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[200%] h-[40px] md:h-[80px] text-white fill-current">
-                        <path d="M0,0 C150,0 150,100 300,100 C450,100 450,0 600,0 C750,0 750,100 900,100 C1050,100 1050,0 1200,0 L1200,120 L0,120 Z" />
-                    </svg>
-                </div>
-            </section>
+                <div className="w-full h-[1px] bg-black mb-16 md:mb-20"></div>
 
-            {/* Metadata Section */}
-            <div className="max-w-[1400px] mx-auto px-6 py-10 md:py-20 overflow-x-auto no-scrollbar">
-                <div className="flex' flex-nowrap md:flex-wrap gap-4 md:gap-8 justify-start md:justify-center min-w-max md:min-w-0">
-                    <div className="bg-[#FAE0F0] px-8 md:px-10 py-4 md:py-5 rounded-full flex gap-8 md:gap-12 items-center">
-                        <span className="text-lg md:text-2xl font-semibold uppercase tracking-tight" style={{ fontFamily: 'var(--font-archivo-black)' }}>Year</span>
-                        <span className="text-lg md:text-2xl font-semibold">{project.year}</span>
+                {/* Sol: Client/Services, Sağ: The Case */}
+                <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+                    <div className="w-full lg:w-[45%] grid grid-cols-2 gap-y-12 gap-x-6 pr-0 lg:pr-10">
+                        {project.client && (
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-[14px] md:text-[16px] uppercase tracking-wide" style={{ fontFamily: 'var(--font-archivo-black)' }}>CLIENT</h3>
+                                <p className="text-[13px] md:text-[14px] text-black/80 font-light">{project.client}</p>
+                            </div>
+                        )}
+                        {services.length > 0 && (
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-[14px] md:text-[16px] uppercase tracking-wide" style={{ fontFamily: 'var(--font-archivo-black)' }}>SERVICES</h3>
+                                <div className="flex flex-col gap-2 text-[13px] md:text-[14px] text-black/80 font-light">
+                                    {services.map((s, i) => <span key={i}>{s}</span>)}
+                                </div>
+                            </div>
+                        )}
+                        {project.year && (
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-[14px] md:text-[16px] uppercase tracking-wide" style={{ fontFamily: 'var(--font-archivo-black)' }}>YEAR</h3>
+                                <p className="text-[13px] md:text-[14px] text-black/80 font-light">{project.year}</p>
+                            </div>
+                        )}
                     </div>
-                    <div className="bg-[#FAE0F0] px-8 md:px-10 py-4 md:py-5 rounded-full flex gap-8 md:gap-12 items-center">
-                        <span className="text-lg md:text-2xl font-semibold uppercase tracking-tight" style={{ fontFamily: 'var(--font-archivo-black)' }}>Client</span>
-                        <span className="text-lg md:text-2xl font-semibold">{project.client || project.title}</span>
-                    </div>
-                    <div className="bg-[#FAE0F0] px-8 md:px-10 py-4 md:py-5 rounded-full flex gap-8 md:gap-12 items-center">
-                        <span className="text-lg md:text-2xl font-semibold uppercase tracking-tight" style={{ fontFamily: 'var(--font-archivo-black)' }}>Services</span>
-                        <span className="text-lg md:text-2xl font-semibold uppercase">{project.category}</span>
-                    </div>
-                </div>
-            </div>
 
-            {/* Project Overview */}
-            <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-                <h2 className="text-[14vw] md:text-[6.5rem] font-semibold leading-[0.85] text-black uppercase tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
-                    PROJECT<br />OVERVIEW
-                </h2>
-                <div className="space-y-8 md:space-y-10">
-                    <p className="text-lg md:text-2xl text-[#2D2D2D]/80 font-medium leading-relaxed md:leading-[1.6]">
-                        {project.overview || `${project.title} partnered with us to elevate their online visibility and connect authentically with beauty-conscious millennials.`}
-                    </p>
-                    <p className="text-lg md:text-2xl text-[#2D2D2D]/80 font-medium leading-relaxed md:leading-[1.6]">
-                        We crafted a performance-focused content framework and executed targeted campaigns driving remarkable growth in reach and conversions.
-                    </p>
-                </div>
-            </section>
-
-            {/* Large Hero Media */}
-            <section className="max-w-[1700px] mx-auto px-6 mb-16 md:mb-32">
-                <div className="w-full rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl bg-gray-100">
-                    {media[0]?.type === 'video' ? (
-                        <video src={media[0].url} autoPlay loop muted playsInline className="w-full h-auto object-cover" />
-                    ) : (
-                        <img src={media[0]?.url || project.imageUrl} alt={project.title} className="w-full h-auto object-cover" />
+                    {descriptionParagraphs.length > 0 && (
+                        <div className="w-full lg:w-[55%] flex flex-col gap-6 md:gap-8 lg:pl-10">
+                            <h2 className="text-[45px] md:text-[60px] lg:text-[70px] uppercase leading-[0.85] tracking-tight m-0 p-0" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
+                                THE CASE
+                            </h2>
+                            <div className="flex flex-col gap-6 text-[14px] md:text-[15px] leading-[1.8] text-black/80 font-light max-w-[850px]">
+                                {(caseExpanded ? descriptionParagraphs : descriptionParagraphs.slice(0, 2)).map((p, i) => (
+                                    <p key={i}>{p}</p>
+                                ))}
+                            </div>
+                            {descriptionParagraphs.length > 2 && (
+                                <button
+                                    onClick={() => setCaseExpanded(!caseExpanded)}
+                                    className="mt-2 self-start text-[13px] md:text-[14px] uppercase tracking-widest text-black border-b border-black pb-0.5 hover:opacity-50 transition-opacity"
+                                    style={{ fontFamily: 'var(--font-archivo-black)' }}
+                                >
+                                    {caseExpanded ? "Show Less ↑" : "Read More ↓"}
+                                </button>
+                            )}
+                        </div>
                     )}
                 </div>
             </section>
 
-            {/* Stats Section */}
-            <section className="bg-white py-16 md:py-40">
-                <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 text-center md:text-left">
-                    {stats.map((stat: any, i: number) => (
-                        <div key={i} className="space-y-4 md:space-y-6">
-                            <h3 className="text-7xl md:text-[7.5rem] font-semibold tracking-tighter leading-none" style={{ fontFamily: 'var(--font-archivo-black)' }}>
-                                {stat.value}
-                            </h3>
-                            <p className="text-lg md:text-2xl text-[#2D2D2D]/70 font-medium leading-relaxed max-w-sm mx-auto md:mx-0">
-                                {stat.label}
-                            </p>
-                        </div>
+            {/* Esnek Medya Akışı */}
+            {extraMediaRows.length > 0 && (
+                <div className="mt-4 md:mt-8 flex flex-col gap-4 md:gap-8">
+                    {extraMediaRows.map((row: any, rowIdx: number) => (
+                        <section key={row.id || rowIdx} className="w-full max-w-[1700px] mx-auto px-4 md:px-8 lg:px-12">
+                            <div className={`grid gap-4 md:gap-8 ${
+                                row.layout === 'single' ? 'grid-cols-1' :
+                                row.layout === 'double' ? 'grid-cols-1 md:grid-cols-2' :
+                                'grid-cols-1 md:grid-cols-3'
+                            }`}>
+                                {row.items?.map((item: any, itemIdx: number) => (
+                                    <motion.div
+                                        key={itemIdx}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: "-100px" }}
+                                        transition={{ duration: 0.6, delay: itemIdx * 0.1 }}
+                                        className={`relative w-full overflow-hidden rounded-[2rem] shadow-xl ${
+                                            row.layout === 'triple-vertical' ? 'aspect-[9/16]' :
+                                            row.layout === 'single' ? 'aspect-[16/9] md:aspect-[21/9]' :
+                                            'aspect-square'
+                                        }`}
+                                    >
+                                        <MediaBlock url={item.url} alt={`${project.title} media`} />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </section>
                     ))}
                 </div>
-            </section>
+            )}
 
-            {/* Challenge & Approach */}
-            <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-40 space-y-24 md:space-y-32">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
-                    <h2 className="text-[14vw] md:text-[6.5rem] font-semibold leading-[0.85] text-black uppercase tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
-                        THE<br />CHALLENGE
-                    </h2>
-                    <p className="text-lg md:text-2xl text-[#2D2D2D]/80 font-medium leading-relaxed md:leading-[1.6]">
-                        {project.challenge || "The company experienced falling engagement and found it challenging to connect with younger demographics."}
-                    </p>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
-                    <h2 className="text-[14vw] md:text-[6.5rem] font-semibold leading-[0.85] text-black uppercase tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
-                        OUR<br />APPROACH
-                    </h2>
-                    <p className="text-lg md:text-2xl text-[#2D2D2D]/80 font-medium leading-relaxed md:leading-[1.6]">
-                        {project.approach || "We built a strategy centered on creative storytelling, influencer collaborations, and performance-driven ads."}
-                    </p>
-                </div>
-            </section>
+            {/* Eski format media array desteği */}
+            {!extraMediaRows.length && project.media?.length > 0 && (
+                <section className="w-full max-w-[1700px] mx-auto px-4 md:px-8 lg:px-12 mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                    {project.media.map((m: any, i: number) => (
+                        <div key={i} className="relative w-full aspect-square overflow-hidden rounded-[2rem] shadow-xl">
+                            <MediaBlock url={m.url} alt={`media-${i}`} />
+                        </div>
+                    ))}
+                </section>
+            )}
 
-            {/* Additional Media Grid */}
-            <section className="max-w-[1700px] mx-auto px-6 py-12 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                {media.slice(1).map((m: any, i: number) => (
-                    <div key={i} className="rounded-[40px] md:rounded-[50px] overflow-hidden shadow-xl bg-gray-50 aspect-[4/3]">
-                         {m.type === 'video' ? (
-                            <video src={m.url} autoPlay loop muted playsInline className="w-full h-full object-cover" />
-                        ) : (
-                            <img src={m.url} alt={`detail-${i}`} className="w-full h-full object-cover" />
-                        )}
+            {/* Stats */}
+            {stats.length > 0 && (
+                <section className="max-w-[1700px] mx-auto px-6 py-16 md:py-32">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+                        {stats.map((stat: any, i: number) => (
+                            <div key={i} className="space-y-4">
+                                <h3 className="text-7xl md:text-[7.5rem] tracking-tighter leading-none" style={{ fontFamily: 'var(--font-archivo-black)' }}>
+                                    {stat.value}
+                                </h3>
+                                <p className="text-base md:text-lg text-black/70 leading-relaxed max-w-sm">{stat.label}</p>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </section>
+                </section>
+            )}
 
-            {/* Back to Work */}
-            <div className="flex justify-center py-20 md:py-40">
+            {/* Kapanış Banner */}
+            {conclusionUrl && (
+                <section className="w-full mt-24 md:mt-32 px-4 md:px-8 lg:px-12 flex justify-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="w-full max-w-[1700px] aspect-[16/9] md:h-[70vh] md:aspect-auto lg:h-[85vh] relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl bg-[#0a0a0a]"
+                    >
+                        <MediaBlock url={conclusionUrl} alt="Conclusion" />
+                    </motion.div>
+                </section>
+            )}
+
+            {/* Geri Dön */}
+            <div className="flex justify-center mt-24 md:mt-32">
                 <Link href="/work">
-                    <motion.div 
+                    <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-[#FAE0F0] px-10 md:px-12 py-5 md:py-6 rounded-full inline-flex items-center gap-4 cursor-pointer"
+                        className="bg-black text-white px-10 md:px-12 py-5 md:py-6 rounded-full inline-flex items-center gap-4 cursor-pointer"
                     >
-                        <span className="text-xl md:text-3xl font-semibold uppercase tracking-tight" style={{ fontFamily: 'var(--font-archivo-black)' }}>Back to Work</span>
+                        <span className="text-xl md:text-3xl uppercase tracking-tight" style={{ fontFamily: 'var(--font-archivo-black)' }}>Back to Work</span>
                         <span className="text-2xl md:text-3xl">→</span>
                     </motion.div>
                 </Link>
             </div>
-
-            <Footer />
         </main>
     );
-};
-
-export default ProjectDetailPage;
+}

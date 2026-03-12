@@ -48,6 +48,11 @@ export default function AdminLayout({
     return <>{children}</>;
   }
 
+  // /admin/projects/* sayfaları kendi tam ekran tasarımını kullanıyor
+  if (pathname.startsWith('/admin/projects')) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex h-screen bg-[#f4f4f4] text-black">
       {/* Sidebar */}
@@ -66,11 +71,11 @@ export default function AdminLayout({
           >
             🚀 Hero Alanı
           </Link>
-          <Link 
-            href="/admin/portfolio" 
-            className={`font-bold p-3 rounded-lg transition-colors ${pathname === '/admin/portfolio' ? 'bg-[#f4f4f4] text-[#1a6ff8]' : 'hover:bg-gray-50'}`}
+          <Link
+            href="/admin/projects"
+            className={`font-bold p-3 rounded-lg transition-colors ${pathname.startsWith('/admin/projects') ? 'bg-[#f4f4f4] text-[#1a6ff8]' : 'hover:bg-gray-50'}`}
           >
-            🎨 Portföy İşleri
+            🎨 Projeler
           </Link>
           <Link 
             href="/admin/testimonials" 
