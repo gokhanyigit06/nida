@@ -41,10 +41,10 @@ const Services = () => {
         {/* Card 1: SEO Digital Strategy */}
         <div className="bg-[#f9dfba] rounded-[50px] p-8 md:p-12 relative overflow-hidden min-h-[400px] md:min-h-[500px] flex flex-col transition-transform hover:-translate-y-2">
           <h3 className="heading-font text-[2.5rem] md:text-[3.5rem] leading-[0.9] mb-6 z-[2]">
-            SEO DIGITAL<br/>STRATEGY
+            VIDEO<br/>EDITING
           </h3>
           <p className="text-lg md:text-xl leading-relaxed font-medium z-[2] max-w-[85%] text-gray-800">
-            We craft customized marketing roadmaps that align with your goals — blending research, creativity.
+            Cinematic cuts, motion graphics, and storytelling that keeps your audience hooked — from reels to full-length productions.
           </p>
           <img 
             src="/seo_robot.png" 
