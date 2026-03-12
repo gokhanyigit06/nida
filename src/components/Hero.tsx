@@ -7,12 +7,14 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 const Hero = () => {
   const [data, setData] = useState<any>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, 'content', 'hero'), (doc) => {
-      if (doc.exists()) {
-        setData(doc.data());
+    const unsubscribe = onSnapshot(doc(db, 'content', 'hero'), (snap) => {
+      if (snap.exists()) {
+        setData(snap.data());
       }
+      setLoaded(true);
     });
     return () => unsubscribe();
   }, []);
@@ -57,7 +59,7 @@ const Hero = () => {
 
       {/* Üst Bölüm / Tipografi */}
       <main className="relative flex-1 flex flex-col items-center justify-center px-8 md:px-16 z-10 pt-48 md:pt-40">
-        <div className="flex flex-col items-start">
+        <div className={`flex flex-col items-start transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
 
           {/* Satır 1 */}
           <div className="relative overflow-hidden">
