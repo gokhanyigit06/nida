@@ -45,7 +45,7 @@ const Hero = () => {
   const bottomDesc = data?.bottomDesc || "We craft strategies that turn clicks into customers and campaigns into lasting brand stories.";
 
   return (
-    <div className="relative min-h-screen w-full bg-[#1D6BFF] overflow-hidden flex flex-col" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
+    <div className="relative min-h-screen w-full bg-black overflow-hidden flex flex-col" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
       
       {/* Arka Plan Halftone Dokusu */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-40 md:opacity-100" 
@@ -117,7 +117,7 @@ const Hero = () => {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-[#1D6BFF] w-full md:w-auto px-10 py-5 rounded-full font-black text-xl flex justify-center items-center gap-2 transition-all shadow-2xl"
+              className="bg-white text-black w-full md:w-auto px-10 py-5 rounded-full font-black text-xl flex justify-center items-center gap-2 transition-all shadow-2xl"
               style={{ fontFamily: 'var(--font-archivo-black)' }}
             >
               LET'S TALK <span className="text-2xl">→</span>
