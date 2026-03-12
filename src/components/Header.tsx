@@ -12,7 +12,7 @@ const Header = () => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed md:absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-[1200px] bg-[var(--header-bg)] text-[var(--header-text)] px-8 md:px-12 py-3 md:py-6 rounded-full shadow-2xl flex justify-between items-center transition-all duration-300"
+        className="fixed md:absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-[1200px] bg-white text-black px-8 md:px-12 py-3 md:py-6 rounded-full shadow-2xl flex justify-between items-center transition-all duration-300"
       >
         <Link href="/" className="no-underline color-inherit">
           <div className="heading-font text-2xl md:text-3xl tracking-tighter">

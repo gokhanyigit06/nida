@@ -56,54 +56,57 @@ const Hero = () => {
       />
 
       {/* Üst Bölüm / Tipografi */}
-      <main className="relative flex-1 flex flex-col items-center justify-center px-6 z-10 pt-48 md:pt-40">
-        
-        {/* Satır 1 */}
-        <div className="relative overflow-hidden w-full flex justify-center">
-          <motion.div
-            variants={titleVariants as any}
-            custom={0}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ scale: 1.03, transition: hoverSpring as any }}
-            className="cursor-default origin-center inline-block py-1"
-          >
-            <h1 className="text-[18vw] md:text-[11vw] font-normal text-white leading-[0.8] tracking-tight uppercase drop-shadow-xl select-none">
-              {line1}
-            </h1>
-          </motion.div>
-        </div>
+      <main className="relative flex-1 flex flex-col items-center justify-center px-8 md:px-16 z-10 pt-48 md:pt-40">
+        <div className="flex flex-col items-start">
 
-        {/* Satır 2 */}
-        <div className="relative overflow-hidden w-full flex justify-center md:pr-[15vw]">
-          <motion.div
-            variants={titleVariants as any}
-            custom={0.1}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ scale: 1.03, transition: hoverSpring as any }}
-            className="cursor-default origin-center inline-block py-1"
-          >
-            <h1 className="text-[18vw] md:text-[11vw] font-normal text-white leading-[0.8] tracking-tight uppercase drop-shadow-xl select-none">
-              {line2}
-            </h1>
-          </motion.div>
-        </div>
+          {/* Satır 1 */}
+          <div className="relative overflow-hidden">
+            <motion.div
+              variants={titleVariants as any}
+              custom={0}
+              initial="hidden"
+              animate="visible"
+              whileHover={{ scale: 1.03, transition: hoverSpring as any }}
+              className="cursor-default origin-left block py-1"
+            >
+              <h1 className="text-[13vw] md:text-[11vw] font-normal text-white leading-[0.85] tracking-tight uppercase drop-shadow-xl select-none whitespace-nowrap">
+                {line1}
+              </h1>
+            </motion.div>
+          </div>
 
-        {/* Satır 3 */}
-        <div className="relative overflow-hidden w-full flex justify-center md:pl-[20vw]">
-          <motion.div
-            variants={titleVariants as any}
-            custom={0.2}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ scale: 1.02, transition: hoverSpring as any }}
-            className="cursor-default origin-center inline-block py-1"
-          >
-            <h1 className="text-[18vw] md:text-[11vw] font-normal text-white leading-[0.8] tracking-tight uppercase drop-shadow-2xl select-none">
-              {line3}
-            </h1>
-          </motion.div>
+          {/* Satır 2 */}
+          <div className="relative overflow-hidden">
+            <motion.div
+              variants={titleVariants as any}
+              custom={0.1}
+              initial="hidden"
+              animate="visible"
+              whileHover={{ scale: 1.03, transition: hoverSpring as any }}
+              className="cursor-default origin-left block py-1"
+            >
+              <h1 className="text-[13vw] md:text-[11vw] font-normal text-white leading-[0.85] tracking-tight uppercase drop-shadow-xl select-none whitespace-nowrap">
+                {line2}
+              </h1>
+            </motion.div>
+          </div>
+
+          {/* Satır 3 */}
+          <div className="relative overflow-hidden">
+            <motion.div
+              variants={titleVariants as any}
+              custom={0.2}
+              initial="hidden"
+              animate="visible"
+              whileHover={{ scale: 1.02, transition: hoverSpring as any }}
+              className="cursor-default origin-left block py-1"
+            >
+              <h1 className="text-[13vw] md:text-[11vw] font-normal text-white leading-[0.85] tracking-tight uppercase drop-shadow-2xl select-none whitespace-nowrap">
+                {line3}
+              </h1>
+            </motion.div>
+          </div>
+
         </div>
       </main>
 
