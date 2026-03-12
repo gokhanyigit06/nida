@@ -39,7 +39,7 @@ const CallToAction = () => {
       <div style={{ position: 'absolute', bottom: '10%', right: '20%', transform: 'rotate(-25deg) scale(0.8)' }}>
         <svg width="60" height="90" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
            {/* Phone body */}
-           <rect x="5" y="5" width="30" height="50" rx="2" fill="#2d7cf8" />
+           <rect x="5" y="5" width="30" height="50" rx="2" fill="#000000" />
            <rect x="5" y="5" width="30" height="50" rx="2" stroke="black" strokeWidth="2" />
            {/* Screen */}
            <rect x="8" y="8" width="24" height="20" fill="white" />

@@ -10,7 +10,7 @@ const ContactPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative h-[38vh] w-full bg-[#1D6BFF] overflow-hidden flex flex-col items-center justify-center pt-20">
+      <section className="relative h-[38vh] w-full bg-black overflow-hidden flex flex-col items-center justify-center pt-20">
         <div className="absolute inset-0 pointer-events-none z-0" 
           style={{ 
             backgroundImage: 'radial-gradient(rgba(255,255,255,0.2) 2px, transparent 0)', 
@@ -53,14 +53,14 @@ const ContactPage = () => {
             <div className="space-y-8">
               <div className="group transition-all">
                 <h3 className="text-xl font-semibold text-black uppercase mb-1 tracking-tight">Email</h3>
-                <a href="mailto:hello@zentragency.com" className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-[#1D6BFF] transition-all font-medium border-b border-transparent hover:border-[#1D6BFF]">
+                <a href="mailto:hello@zentragency.com" className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-black transition-all font-medium border-b border-transparent hover:border-black">
                   hello@zentragency.com
                 </a>
               </div>
 
               <div>
                 <h3 className="text-xl font-semibold text-black uppercase mb-1 tracking-tight">Phone</h3>
-                <a href="tel:+12345678900" className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-[#1D6BFF] transition-all font-medium">
+                <a href="tel:+12345678900" className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-black transition-all font-medium">
                   +1 (234) 567-8900
                 </a>
               </div>
@@ -83,7 +83,7 @@ const ContactPage = () => {
                 <input 
                   type="text" 
                   placeholder="Full name" 
-                  className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-[#1D6BFF] outline-none transition-all"
+                  className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-black outline-none transition-all"
                 />
               </div>
 
@@ -93,7 +93,7 @@ const ContactPage = () => {
                   <input 
                     type="text" 
                     placeholder="Company name" 
-                    className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-[#1D6BFF] outline-none transition-all"
+                    className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-black outline-none transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -101,7 +101,7 @@ const ContactPage = () => {
                   <input 
                     type="tel" 
                     placeholder="Phone number" 
-                    className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-[#1D6BFF] outline-none transition-all"
+                    className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-black outline-none transition-all"
                   />
                 </div>
               </div>
@@ -111,7 +111,7 @@ const ContactPage = () => {
                 <input 
                   type="email" 
                   placeholder="Email Address" 
-                  className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-[#1D6BFF] outline-none transition-all"
+                  className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-black outline-none transition-all"
                 />
               </div>
 
@@ -120,14 +120,14 @@ const ContactPage = () => {
                 <textarea 
                   rows={4}
                   placeholder="Write your message" 
-                  className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-[#1D6BFF] outline-none transition-all resize-none"
+                  className="w-full p-5 rounded-[25px] border-none bg-white text-lg placeholder:text-gray-200 shadow-sm focus:ring-2 focus:ring-black outline-none transition-all resize-none"
                 />
               </div>
 
               <motion.button 
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className="w-full bg-[#1D6BFF] text-white py-5 rounded-[25px] text-xl md:text-2xl font-bold tracking-tight flex items-center justify-center gap-3 shadow-xl hover:bg-[#1656D1] transition-all mt-4"
+                className="w-full bg-black text-white py-5 rounded-[25px] text-xl md:text-2xl font-bold tracking-tight flex items-center justify-center gap-3 shadow-xl hover:bg-gray-900 transition-all mt-4"
               >
                 Let's Talk <span className="text-2xl md:text-3xl">→</span>
               </motion.button>

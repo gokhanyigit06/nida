@@ -23,7 +23,7 @@ const WorkPage = () => {
             <Header />
 
             {/* Hero Section */}
-            <section className="relative h-[45vh] md:h-[55vh] w-full bg-[#1D6BFF] overflow-hidden flex flex-col items-center justify-center pt-32 md:pt-24">
+            <section className="relative h-[45vh] md:h-[55vh] w-full bg-black overflow-hidden flex flex-col items-center justify-center pt-32 md:pt-24">
                 {/* Halftone / Dotted Background */}
                 <div className="absolute inset-0 pointer-events-none z-0" 
                     style={{ 
@@ -97,7 +97,7 @@ const WorkPage = () => {
                             >
                                 <div 
                                     className="relative rounded-[40px] md:rounded-[50px] overflow-hidden p-6 md:p-12 mb-6 md:mb-10"
-                                    style={{ backgroundColor: work.bgColor || (index % 2 === 0 ? '#F9D7E8' : '#7CB1FF') }}
+                                    style={{ backgroundColor: work.bgColor || (index % 2 === 0 ? '#F9D7E8' : '#E8E8E8') }}
                                 >
                                     <div className="relative aspect-[4/3] rounded-[24px] md:rounded-[30px] overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
                                         <img 
