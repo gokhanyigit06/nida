@@ -22,57 +22,60 @@ const Testimonials = () => {
     if (testimonials.length === 0) return null;
 
   return (
-    <section id="testimonials" style={{
-      padding: '8rem 4rem',
-      backgroundColor: '#fcd3ef',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <section id="testimonials" className="px-6 py-20 md:px-16 md:py-32 bg-[#fcd3ef] relative overflow-hidden">
       
-      {/* Wave Divider Placeholder */}
-      <div className="scalloped-top" style={{ filter: 'brightness(10)' }}></div>
+      {/* Scalloped Border Overlay */}
+      <div className="scalloped-top brightness-[10] absolute top-0 left-0 w-full h-8 z-10" />
 
-      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-        <h2 className="heading-font" style={{ fontSize: '5.5rem', lineHeight: '0.85', letterSpacing: '-2px' }}>
+      <div className="text-center mb-16 md:mb-24">
+        <h2 className="heading-font text-[3.5rem] md:text-[5.5rem] leading-[0.85] tracking-[-0.03em] m-0 lowercase">
           TRUSTED BY<br/>GROWING BRANDS
         </h2>
       </div>
 
-      <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>
+      <div className="max-w-[1200px] mx-auto relative px-4">
          <AnimatePresence mode="wait">
             <motion.div 
                key={currentIndex}
-               initial={{ opacity: 0, x: 100 }}
+               initial={{ opacity: 0, x: 50 }}
                animate={{ opacity: 1, x: 0 }}
-               exit={{ opacity: 0, x: -100 }}
-               style={{ textAlign: 'center' }}
+               exit={{ opacity: 0, x: -50 }}
+               className="text-center"
             >
-               <h3 className="heading-font" style={{ fontSize: '3rem', color: '#1a1a1a', marginBottom: '2rem' }}>
+               <h3 className="heading-font text-3xl md:text-5xl text-black mb-10 md:mb-16 leading-tight italic">
                 "{testimonials[currentIndex].quote}"
                </h3>
-               <p style={{ fontSize: '1.4rem', lineHeight: '1.6', fontWeight: '500', color: '#333', maxWidth: '800px', margin: '0 auto 3rem auto' }}>
+               
+               <p className="text-lg md:text-2xl leading-relaxed font-medium text-gray-800 max-w-[900px] mx-auto mb-12 md:mb-16 opacity-80">
                 {testimonials[currentIndex].text}
                </p>
 
-               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-                 <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'white', overflow: 'hidden' }}>
-                    <img src={testimonials[currentIndex].imageUrl} alt={testimonials[currentIndex].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+               <div className="flex flex-col items-center gap-4">
+                 <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-1 shadow-2xl overflow-hidden">
+                    <img src={testimonials[currentIndex].imageUrl} alt={testimonials[currentIndex].name} className="w-full h-full object-cover rounded-full" />
                  </div>
-                 <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontWeight: '800', fontSize: '1.2rem' }}>{testimonials[currentIndex].name}</div>
-                    <div style={{ opacity: 0.6, fontWeight: '600' }}>{testimonials[currentIndex].title}</div>
+                 <div className="text-center">
+                    <div className="font-archivo-black text-xl md:text-2xl uppercase tracking-tighter">{testimonials[currentIndex].name}</div>
+                    <div className="text-base md:text-lg opacity-60 font-bold uppercase tracking-widest mt-1">{testimonials[currentIndex].title}</div>
                  </div>
                </div>
             </motion.div>
          </AnimatePresence>
 
          {/* Navigation Arrows */}
-         <div style={{ 
-            position: 'absolute', top: '50%', width: '100%', display: 'flex', justifyContent: 'space-between',
-            transform: 'translateY(-50%)', pointerEvents: 'none'
-         }}>
-           <button onClick={prev} style={{ pointerEvents: 'auto', background: 'white', border: 'none', width: '50px', height: '50px', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}>←</button>
-           <button onClick={next} style={{ pointerEvents: 'auto', background: 'white', border: 'none', width: '50px', height: '50px', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}>→</button>
+         <div className="flex justify-center gap-6 mt-16 md:mt-24">
+           <button 
+             onClick={prev} 
+             className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-2xl shadow-xl hover:scale-110 active:scale-95 transition-all"
+           >
+             ←
+           </button>
+           <button 
+             onClick={next} 
+             className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-2xl shadow-xl hover:scale-110 active:scale-95 transition-all"
+           >
+             →
+           </button>
          </div>
       </div>
 

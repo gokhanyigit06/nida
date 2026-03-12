@@ -4,69 +4,41 @@ import { motion } from 'framer-motion';
 
 const Footer = () => {
   return (
-    <footer style={{
-      backgroundColor: '#1a6ff8',
-      color: 'white',
-      padding: '8rem 4rem 2rem 4rem',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Top Scalloped Border */}
-      <div className="scalloped-top" style={{ filter: 'brightness(10)' }}></div>
+    <footer className="bg-[#1D6BFF] text-white px-6 py-20 pb-10 md:px-16 md:py-32 relative overflow-hidden">
+      {/* Top Scalloped Border - This depends on your global CSS */}
+      <div className="scalloped-top brightness-[10] absolute top-0 left-0 w-full h-8 z-10" />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div className="max-w-[1400px] mx-auto relative z-10">
         
-        {/* Top Info Section */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '8rem' }}>
-          
-          <div style={{ display: 'flex', gap: '6rem', flexWrap: 'wrap' }}>
-
-          </div>
-          
-
-        </div>
-
         {/* Huge Text Section */}
-        <div style={{ position: 'relative', textAlign: 'center', marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="relative text-center mb-16 md:mb-32 flex flex-col items-center">
           
-          {/* Small star above */}
+          {/* Rotating Star */}
           <motion.div 
              animate={{ rotate: 360 }}
-             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-             style={{ position: 'absolute', top: '-110px', left: '50%', transform: 'translateX(-50%)', width: '20px', height: '20px', zIndex: 1 }}
+             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+             className="absolute -top-16 md:-top-24 left-1/2 -translate-x-1/2 w-8 h-8 md:w-12 md:h-12 opacity-80"
           >
-             <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+             <svg viewBox="0 0 24 24" fill="#ffffff" className="w-full h-full">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+             </svg>
           </motion.div>
-
-          <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
-            
-
-
-            <h1 className="heading-font" style={{ 
-              fontSize: '13.5vw', 
-              margin: '0', 
-              lineHeight: '0.8', 
-              letterSpacing: '-5px', 
-              whiteSpace: 'nowrap',
-              textShadow: '0px 10px 30px rgba(0,0,0,0.1)',
-              paddingTop: '3rem',
-              color: 'white',
-              position: 'relative',
-              zIndex: 2
-            }}>
+          
+          <div className="pt-10">
+            <h1 className="heading-font text-[14vw] md:text-[13.5vw] leading-[0.8] tracking-[-0.05em] uppercase m-0 drop-shadow-2xl">
               NİDA STUDIO
             </h1>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '2rem', fontSize: '0.9rem', flexWrap: 'wrap', gap: '1rem' }}>
-          <div style={{ display: 'flex', gap: '2rem' }}>
-            <a href="#" style={{ color: 'white', textDecoration: 'none', fontWeight: '500' }}>Terms & Conditions</a>
-            <a href="#" style={{ color: 'white', textDecoration: 'none', fontWeight: '500' }}>Privacy Policy</a>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 border-t border-white/20 text-sm md:text-base font-medium">
+          <div className="flex gap-6 md:gap-10">
+            <a href="#" className="hover:opacity-70 transition-opacity">Terms & Conditions</a>
+            <a href="#" className="hover:opacity-70 transition-opacity">Privacy Policy</a>
           </div>
-          <div style={{ fontWeight: '500' }}>
-            All Right Reserved @Framerbite
+          <div className="opacity-60 text-center md:text-right">
+            © {new Date().getFullYear()} Nida Studio. All Rights Reserved.
           </div>
         </div>
 

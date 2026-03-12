@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
@@ -46,8 +47,8 @@ const Hero = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#1D6BFF] overflow-hidden flex flex-col" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
       
-      {/* Arka Plan Halftone Dokusu (Görseldeki yuvarlaklar) */}
-      <div className="absolute inset-0 pointer-events-none z-0" 
+      {/* Arka Plan Halftone Dokusu */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-40 md:opacity-100" 
         style={{ 
           backgroundImage: 'radial-gradient(rgba(255,255,255,0.2) 2px, transparent 0)', 
           backgroundSize: '24px 24px' 
@@ -55,63 +56,51 @@ const Hero = () => {
       />
 
       {/* Üst Bölüm / Tipografi */}
-      <main className="relative flex-1 flex flex-col items-center justify-center px-8 z-10 pt-40">
+      <main className="relative flex-1 flex flex-col items-center justify-center px-6 z-10 pt-48 md:pt-40">
         
-        {/* Satır 1 - Merkeze Yakın */}
+        {/* Satır 1 */}
         <div className="relative overflow-hidden w-full flex justify-center">
           <motion.div
             variants={titleVariants as any}
             custom={0}
             initial="hidden"
             animate="visible"
-            whileHover={{ 
-              skewX: -6, 
-              scale: 1.03,
-              transition: hoverSpring as any
-            }}
-            className="cursor-default origin-center inline-block py-2"
+            whileHover={{ scale: 1.03, transition: hoverSpring as any }}
+            className="cursor-default origin-center inline-block py-1"
           >
-            <h1 className="text-[14vw] md:text-[11vw] font-normal text-white leading-[0.85] tracking-[-0.02em] uppercase drop-shadow-lg select-none">
+            <h1 className="text-[18vw] md:text-[11vw] font-normal text-white leading-[0.8] tracking-tight uppercase drop-shadow-xl select-none">
               {line1}
             </h1>
           </motion.div>
         </div>
 
-        {/* Satır 2 - Merkeze Yakın */}
+        {/* Satır 2 */}
         <div className="relative overflow-hidden w-full flex justify-center md:pr-[15vw]">
           <motion.div
             variants={titleVariants as any}
             custom={0.1}
             initial="hidden"
             animate="visible"
-            whileHover={{ 
-              skewX: 6, 
-              scale: 1.03,
-              transition: hoverSpring as any
-            }}
-            className="cursor-default origin-center inline-block py-2"
+            whileHover={{ scale: 1.03, transition: hoverSpring as any }}
+            className="cursor-default origin-center inline-block py-1"
           >
-            <h1 className="text-[14vw] md:text-[11vw] font-normal text-white leading-[0.85] tracking-[-0.02em] uppercase drop-shadow-lg select-none">
+            <h1 className="text-[18vw] md:text-[11vw] font-normal text-white leading-[0.8] tracking-tight uppercase drop-shadow-xl select-none">
               {line2}
             </h1>
           </motion.div>
         </div>
 
-        {/* Satır 3 - Merkeze Yakın / Staggered */}
+        {/* Satır 3 */}
         <div className="relative overflow-hidden w-full flex justify-center md:pl-[20vw]">
           <motion.div
             variants={titleVariants as any}
             custom={0.2}
             initial="hidden"
             animate="visible"
-            whileHover={{ 
-              skewX: -3, 
-              scale: 1.02,
-              transition: hoverSpring as any
-            }}
-            className="cursor-default origin-center inline-block py-2"
+            whileHover={{ scale: 1.02, transition: hoverSpring as any }}
+            className="cursor-default origin-center inline-block py-1"
           >
-            <h1 className="text-[14vw] md:text-[11vw] font-normal text-white leading-[0.85] tracking-[-0.02em] uppercase drop-shadow-xl select-none">
+            <h1 className="text-[18vw] md:text-[11vw] font-normal text-white leading-[0.8] tracking-tight uppercase drop-shadow-2xl select-none">
               {line3}
             </h1>
           </motion.div>
@@ -119,24 +108,25 @@ const Hero = () => {
       </main>
 
       {/* Alt Bölüm / Footer CTA */}
-      <div className="mt-auto relative z-20 px-8 md:px-16 pb-32 flex flex-col md:flex-row justify-between items-end gap-8 font-sans">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 w-full md:w-auto">
-          <div className="text-white font-black text-2xl leading-none whitespace-pre-wrap" style={{ fontFamily: 'var(--font-archivo-black)' }}>
+      <div className="mt-auto relative z-20 px-8 md:px-16 pb-24 md:pb-32 flex flex-col md:flex-row justify-between items-start md:items-end gap-10 font-sans">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 w-full md:w-auto">
+          <div className="text-white font-black text-2xl md:text-3xl leading-none whitespace-pre-wrap tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
             {bottomTitle}
           </div>
-          <a href="/contact" style={{ textDecoration: 'none' }}>
+          <Link href="/contact" className="w-full md:w-auto">
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-[#1D6BFF] px-8 py-4 rounded-full font-bold text-lg flex items-center gap-2 transition-all shadow-xl"
+              className="bg-white text-[#1D6BFF] w-full md:w-auto px-10 py-5 rounded-full font-black text-xl flex justify-center items-center gap-2 transition-all shadow-2xl"
+              style={{ fontFamily: 'var(--font-archivo-black)' }}
             >
-              Let's Talk <span className="text-xl">→</span>
+              LET'S TALK <span className="text-2xl">→</span>
             </motion.button>
-          </a>
+          </Link>
         </div>
 
-        <div className="max-w-[300px] text-right">
-          <p className="text-white/90 text-sm font-medium leading-tight italic">
+        <div className="max-w-[320px] text-left md:text-right opacity-80">
+          <p className="text-white text-base md:text-lg font-medium leading-relaxed italic">
             "{bottomDesc}"
           </p>
         </div>

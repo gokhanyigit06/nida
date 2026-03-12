@@ -4,34 +4,16 @@ import { motion } from 'framer-motion';
 
 const Quote = () => {
   return (
-    <section style={{
-      padding: '8rem 2rem',
-      backgroundColor: '#ffffff',
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden',
-      minHeight: '60vh'
-    }}>
+    <section className="px-6 py-24 md:px-16 md:py-48 bg-white relative flex items-center justify-center overflow-hidden min-h-[50vh] md:min-h-[70vh]">
       
-      {/* Background Animated Pill Shapes - Scaled Down */}
+      {/* Background Animated Pill Shapes */}
       <motion.div
         animate={{ 
           rotate: [30, 35, 30],
           y: [-10, 10, -10]
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: 'absolute',
-          width: '120px',
-          height: '350px',
-          backgroundColor: '#fadbf3',
-          borderRadius: '75px',
-          zIndex: 1,
-          left: '35%',
-          top: '5%'
-        }}
+        className="absolute w-[80px] h-[250px] md:w-[120px] md:h-[350px] bg-[#fadbf3] rounded-full z-[1] left-[10%] md:left-[35%] top-[5%]"
       />
 
       <motion.div
@@ -40,16 +22,7 @@ const Quote = () => {
           x: [-10, 10, -10]
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: 'absolute',
-          width: '140px',
-          height: '325px',
-          backgroundColor: '#ffcff2',
-          borderRadius: '75px',
-          zIndex: 1,
-          right: '35%',
-          top: '20%'
-        }}
+        className="absolute w-[100px] h-[220px] md:w-[140px] md:h-[325px] bg-[#ffcff2] rounded-full z-[1] right-[5%] md:right-[35%] top-[10%] md:top-[20%]"
       />
       
       <motion.div
@@ -58,36 +31,22 @@ const Quote = () => {
           scale: [1, 1.05, 1]
         }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: 'absolute',
-          width: '100px',
-          height: '250px',
-          backgroundColor: '#fcd3ef',
-          borderRadius: '50px',
-          zIndex: 1,
-          left: '42%',
-          bottom: '10%'
-        }}
+        className="absolute w-[70px] h-[180px] md:w-[100px] md:h-[250px] bg-[#fcd3ef] rounded-full z-[1] left-[40%] bottom-[5%] md:bottom-[10%]"
       />
 
       {/* Main Text */}
-      <div className="heading-font" style={{
-        position: 'relative',
-        zIndex: 2,
-        fontSize: '4.5vw',
-        textAlign: 'center',
-        lineHeight: '0.85',
-        letterSpacing: '-2px',
-        maxWidth: '1200px',
-        color: '#1a1a1a'
-      }}>
+      <motion.div 
+        initial={{ y: 50, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        className="heading-font relative z-10 text-[11vw] md:text-[6.5vw] text-center leading-[0.85] tracking-[-0.03em] max-w-[1400px] text-black"
+      >
         WE CRAFT<br/>
         STRATEGIES THAT<br/>
         TURN INTO<br/>
-        <span style={{ letterSpacing: '-3px' }}>CAMPAIGNS</span><br/>
+        <span className="tracking-[-0.05em]">CAMPAIGNS</span><br/>
         LASTING BRAND<br/>
         STORIES.
-      </div>
+      </motion.div>
 
     </section>
   );
