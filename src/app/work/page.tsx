@@ -58,7 +58,7 @@ const WorkPage = () => {
                     className="relative z-10 text-[28vw] md:text-[16vw] text-white font-normal uppercase leading-none select-none tracking-tight"
                     style={{ fontFamily: 'var(--font-bebas-neue)' }}
                 >
-                    WORK
+                    WORKS
                 </motion.h1>
 
                 {/* Sparkling Star */}
@@ -100,11 +100,7 @@ const WorkPage = () => {
                                     style={{ backgroundColor: work.bgColor || (index % 2 === 0 ? '#F9D7E8' : '#E8E8E8') }}
                                 >
                                     <div className="relative aspect-[4/3] rounded-[24px] md:rounded-[30px] overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
-                                        <img 
-                                            src={work.imageUrl} 
-                                            alt={work.title} 
-                                            className="w-full h-full object-cover"
-                                        />
+                                        {(() => { const url = work.imagePlaceholder || work.imageUrl; return url ? /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url) ? <video src={url} autoPlay muted loop playsInline className="w-full h-full object-cover" /> : <img src={url} alt={work.title} className="w-full h-full object-cover" /> : null; })()}
                                     </div>
                                 </div>
                                 

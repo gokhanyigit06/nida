@@ -51,12 +51,7 @@ const Portfolio = () => {
 
             {/* Bottom Info */}
             <div className="flex justify-between items-end">
-              <h3 className="heading-font text-4xl md:text-6xl m-0 leading-tight">{work.title}</h3>
-              <div 
-                className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-2xl md:text-3xl cursor-pointer hover:rotate-45 transition-transform shadow-lg"
-              >
-                ↗
-              </div>
+              <h3 className="heading-font text-2xl md:text-3xl m-0 leading-tight">{work.title}</h3>
             </div>
           </motion.div>
           </Link>
