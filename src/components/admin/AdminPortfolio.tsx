@@ -17,6 +17,7 @@ const AdminPortfolio = () => {
     client: '',
     bgColor: '#fbc9e7',
     imageUrl: '',
+    coverVideoUrl: '',
     textColor: 'black',
     overview: '',
     challenge: '',
@@ -74,6 +75,7 @@ const AdminPortfolio = () => {
         client: '',
         bgColor: '#fbc9e7',
         imageUrl: '',
+        coverVideoUrl: '',
         textColor: 'black',
         overview: '',
         challenge: '',
@@ -160,6 +162,19 @@ const AdminPortfolio = () => {
           <div>
             <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.8rem' }}>Liste Görseli URL (Kapak)</label>
             <input type="text" value={formData.imageUrl} onChange={(e) => setFormData({...formData, imageUrl: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #ddd' }} />
+            <p style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.4rem' }}>🖱️ Mouse üzerine gelince bu görsel gösterilir</p>
+            {formData.imageUrl && (
+              <img src={formData.imageUrl} alt="kapak" style={{ marginTop: '0.75rem', width: '100%', maxHeight: '140px', objectFit: 'cover', borderRadius: '10px', border: '1px solid #eee' }} />
+            )}
+          </div>
+
+          <div>
+            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.8rem' }}>Kart Video URL</label>
+            <input type="text" value={formData.coverVideoUrl || ''} onChange={(e) => setFormData({...formData, coverVideoUrl: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #ddd' }} placeholder=".mp4 / .webm URL girin" />
+            <p style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.4rem' }}>▶️ Mouse yokken bu video otomatik oynar</p>
+            {formData.coverVideoUrl && (
+              <video src={formData.coverVideoUrl} muted loop autoPlay playsInline style={{ marginTop: '0.75rem', width: '100%', maxHeight: '140px', objectFit: 'cover', borderRadius: '10px', border: '1px solid #eee' }} />
+            )}
           </div>
 
           <div style={{ gridColumn: 'span 2', borderBottom: '2px solid #f0f0f0', paddingBottom: '1rem', marginTop: '2rem' }}>

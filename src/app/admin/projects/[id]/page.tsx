@@ -30,10 +30,11 @@ export default function EditProjectPage() {
     const [imagePlaceholder, setImagePlaceholder] = useState<File | null>(null);
     const [heroImage, setHeroImage] = useState<File | null>(null);
     const [conclusionImage, setConclusionImage] = useState<File | null>(null);
+    const [coverVideo, setCoverVideo] = useState<File | null>(null);
 
-    const [existingImages, setExistingImages] = useState({ thumb: "", hero: "", conclusion: "" });
-    const [previews, setPreviews] = useState({ thumb: "", hero: "", conclusion: "" });
-    const [mediaTypes, setMediaTypes] = useState({ thumb: "image", hero: "image", conclusion: "image" });
+    const [existingImages, setExistingImages] = useState({ thumb: "", hero: "", conclusion: "", coverVideo: "" });
+    const [previews, setPreviews] = useState({ thumb: "", hero: "", conclusion: "", coverVideo: "" });
+    const [mediaTypes, setMediaTypes] = useState({ thumb: "image", hero: "image", conclusion: "image", coverVideo: "video" });
 
     const [extraRows, setExtraRows] = useState<any[]>([]);
 
@@ -57,8 +58,9 @@ export default function EditProjectPage() {
                     const thumb = data.imagePlaceholder || data.imageUrl || "";
                     const hero = data.heroImage || "";
                     const conclusion = data.conclusionImage || "";
-                    setExistingImages({ thumb, hero, conclusion });
-                    setPreviews({ thumb, hero, conclusion });
+                    const coverVideoUrl = data.coverVideoUrl || "";
+                    setExistingImages({ thumb, hero, conclusion, coverVideo: coverVideoUrl });
+                    setPreviews({ thumb, hero, conclusion, coverVideo: coverVideoUrl });
 
                     if (data.extraMediaRows) {
                         setExtraRows(data.extraMediaRows.map((row: any) => {
@@ -130,7 +132,7 @@ export default function EditProjectPage() {
         }));
     };
 
-    const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>, type: "thumb" | "hero" | "conclusion") => {
+    const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>, type: "thumb" | "hero" | "conclusion" | "coverVideo") => {
         if (!e.target.files?.[0]) return;
         const file = e.target.files[0];
         const previewUrl = URL.createObjectURL(file);
@@ -138,6 +140,7 @@ export default function EditProjectPage() {
         if (type === "thumb") { setImagePlaceholder(file); setPreviews(p => ({ ...p, thumb: previewUrl })); setMediaTypes(t => ({ ...t, thumb: mediaType })); }
         else if (type === "hero") { setHeroImage(file); setPreviews(p => ({ ...p, hero: previewUrl })); setMediaTypes(t => ({ ...t, hero: mediaType })); }
         else if (type === "conclusion") { setConclusionImage(file); setPreviews(p => ({ ...p, conclusion: previewUrl })); setMediaTypes(t => ({ ...t, conclusion: mediaType })); }
+        else if (type === "coverVideo") { setCoverVideo(file); setPreviews(p => ({ ...p, coverVideo: previewUrl })); setMediaTypes(t => ({ ...t, coverVideo: "video" })); }
     };
 
     const uploadFile = async (file: File, folder: string) => {
@@ -156,6 +159,7 @@ export default function EditProjectPage() {
             const thumbUrl = imagePlaceholder ? await uploadFile(imagePlaceholder, folderName) : existingImages.thumb;
             const heroUrl = heroImage ? await uploadFile(heroImage, folderName) : existingImages.hero;
             const conclusionUrl = conclusionImage ? await uploadFile(conclusionImage, folderName) : existingImages.conclusion;
+            const coverVideoUrl = coverVideo ? await uploadFile(coverVideo, folderName) : existingImages.coverVideo;
 
             const servicesArray = services.split(",").map(s => s.trim()).filter(Boolean);
             const descriptionArray = description.split("\n").map(d => d.trim()).filter(Boolean);
@@ -171,6 +175,7 @@ export default function EditProjectPage() {
                 textColor,
                 imagePlaceholder: thumbUrl,
                 imageUrl: thumbUrl,
+                coverVideoUrl,
                 heroImage: heroUrl,
                 conclusionImage: conclusionUrl,
                 mediaTypes,
@@ -200,7 +205,7 @@ export default function EditProjectPage() {
         }
     };
 
-    const MediaSlot = ({ label, type, preview, mediaType }: { label: string; type: "thumb" | "hero" | "conclusion"; preview: string; mediaType: string }) => (
+    const MediaSlot = ({ label, type, preview, mediaType }: { label: string; type: "thumb" | "hero" | "conclusion" | "coverVideo"; preview: string; mediaType: string }) => (
         <div className="flex flex-col gap-4">
             <label className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-black text-center">{label}</label>
             <label className="relative w-full aspect-[4/3] bg-black border border-white/5 rounded-3xl hover:border-white/40 transition-all cursor-pointer overflow-hidden group">
@@ -344,8 +349,11 @@ export default function EditProjectPage() {
                     {/* Ana Medya */}
                     <div className="bg-[#0a0a0a] border border-white/10 rounded-[2rem] p-8 md:p-10 flex flex-col gap-8">
                         <h2 className="text-xl font-bold uppercase tracking-widest text-white/50 border-b border-white/10 pb-6">4. Ana Medya Alanları</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <MediaSlot label="Kart Thumbnail" type="thumb" preview={previews.thumb} mediaType={mediaTypes.thumb} />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <MediaSlot label="🖱️ Hover Görseli (Kapak)" type="thumb" preview={previews.thumb} mediaType={mediaTypes.thumb} />
+                            <MediaSlot label="▶️ Kart Video (Mouse yokken oynar)" type="coverVideo" preview={previews.coverVideo} mediaType={mediaTypes.coverVideo} />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                             <MediaSlot label="Üst Hero Banner" type="hero" preview={previews.hero} mediaType={mediaTypes.hero} />
                             <MediaSlot label="Alt Kapanış Banner" type="conclusion" preview={previews.conclusion} mediaType={mediaTypes.conclusion} />
                         </div>
