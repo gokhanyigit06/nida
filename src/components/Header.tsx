@@ -24,7 +24,7 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8 font-bold text-lg">
           <Link href="/" className="hover:opacity-70 transition-opacity">Home</Link>
           <Link href="/work" className="hover:opacity-70 transition-opacity">Works</Link>
-          <Link href="#about" className="hover:opacity-70 transition-opacity">About me</Link>
+          <Link href="/about" className="hover:opacity-70 transition-opacity">About</Link>
           <Link href="/contact" className="hover:opacity-70 transition-opacity">Contact</Link>
         </nav>
 
@@ -67,7 +67,7 @@ const Header = () => {
             <nav className="flex flex-col gap-6 text-3xl font-bold uppercase tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
               <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
               <Link href="/work" onClick={() => setIsOpen(false)}>Works</Link>
-              <Link href="#about" onClick={() => setIsOpen(false)}>About me</Link>
+              <Link href="/about" onClick={() => setIsOpen(false)}>About</Link>
               <Link href="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
             </nav>
             

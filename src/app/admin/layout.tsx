@@ -83,6 +83,18 @@ export default function AdminLayout({
           >
             💬 Yorumlar
           </Link>
+          <Link 
+            href="/admin/contact" 
+            className={`font-bold p-3 rounded-lg transition-colors ${pathname === '/admin/contact' ? 'bg-[#f4f4f4] text-[#1a6ff8]' : 'hover:bg-gray-50'}`}
+          >
+            📬 İletişim
+          </Link>
+          <Link 
+            href="/admin/about" 
+            className={`font-bold p-3 rounded-lg transition-colors ${pathname === '/admin/about' ? 'bg-[#f4f4f4] text-[#1a6ff8]' : 'hover:bg-gray-50'}`}
+          >
+            🧭 Hakkımızda
+          </Link>
         </nav>
         <button 
           onClick={handleLogout} 

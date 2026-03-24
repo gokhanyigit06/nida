@@ -1,10 +1,39 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+
+const defaultData = {
+  email: "hello@zentragency.com",
+  phone: "+1 (234) 567-8900",
+  hoursLine1: "Mon–Fri: 9:00 AM – 6:00 PM",
+  hoursLine2: "Sat–Sun: Closed",
+  heading: "REACH US\nDIRECTLY",
+  subtext: "Tell us about your goals, challenges, and ideas — and we'll help you turn them into results.",
+};
 
 const ContactPage = () => {
+  const [data, setData] = useState(defaultData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const snap = await getDoc(doc(db, "siteConfig", "contact"));
+        if (snap.exists()) {
+          setData({ ...defaultData, ...snap.data() });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const headingLines = data.heading.split('\n');
+
   return (
     <main className="min-h-screen bg-white">
       <Header />
@@ -39,37 +68,42 @@ const ContactPage = () => {
       <section className="max-w-6xl mx-auto px-8 py-16 md:px-12 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           
-          {/* Left Side: Info - Font weights adjusted to Semi-Bold/Medium */}
+          {/* Left Side: Info */}
           <div className="space-y-10">
             <div className="space-y-4">
               <h2 className="text-[8vw] md:text-[4.2rem] font-semibold leading-[1.1] text-black uppercase tracking-tight">
-                REACH US<br />DIRECTLY
+                {headingLines.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < headingLines.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </h2>
               <p className="text-lg md:text-xl text-[#2D2D2D]/60 max-w-md font-medium leading-relaxed">
-                Tell us about your goals, challenges, and ideas — and we'll help you turn them into results.
+                {data.subtext}
               </p>
             </div>
 
             <div className="space-y-8">
               <div className="group transition-all">
                 <h3 className="text-xl font-semibold text-black uppercase mb-1 tracking-tight">Email</h3>
-                <a href="mailto:hello@zentragency.com" className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-black transition-all font-medium border-b border-transparent hover:border-black">
-                  hello@zentragency.com
+                <a href={`mailto:${data.email}`} className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-black transition-all font-medium border-b border-transparent hover:border-black">
+                  {data.email}
                 </a>
               </div>
 
               <div>
                 <h3 className="text-xl font-semibold text-black uppercase mb-1 tracking-tight">Phone</h3>
-                <a href="tel:+12345678900" className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-black transition-all font-medium">
-                  +1 (234) 567-8900
+                <a href={`tel:${data.phone}`} className="text-lg md:text-xl text-[#2D2D2D]/80 hover:text-black transition-all font-medium">
+                  {data.phone}
                 </a>
               </div>
 
               <div>
                 <h3 className="text-xl font-semibold text-black uppercase mb-1 tracking-tight">Hours</h3>
                 <p className="text-lg md:text-xl text-[#2D2D2D]/80 font-medium leading-relaxed">
-                  Mon–Fri: 9:00 AM – 6:00 PM<br />
-                  Sat–Sun: Closed
+                  {data.hoursLine1}<br />
+                  {data.hoursLine2}
                 </p>
               </div>
             </div>
