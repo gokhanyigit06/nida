@@ -32,12 +32,53 @@ const Marquee = () => {
   );
 };
 
+const VideoSlot = ({ src, index }: { src: string; index: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.9, delay: 0.3 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+    className="site-px"
+  >
+    <div
+      className="w-full relative overflow-hidden bg-[#f0ede8] rounded-sm"
+      style={{ aspectRatio: '2560 / 540' }}
+    >
+      {src ? (
+        <video
+          key={src}
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          src={src}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3 opacity-20">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-black">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span className="text-xs tracking-widest font-medium text-black uppercase">Video {index + 1}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  </motion.div>
+);
+
 const Hero = () => {
-  const [videoSrc, setVideoSrc] = useState<string>('');
+  const [videos, setVideos] = useState<string[]>(['', '', '']);
 
   useEffect(() => {
     getSiteContent().then((data) => {
-      if (data?.heroVideo) setVideoSrc(data.heroVideo);
+      if (data) {
+        setVideos([
+          data.heroVideo ?? '',
+          data.heroVideo2 ?? '',
+          data.heroVideo3 ?? '',
+        ]);
+      }
     });
   }, []);
 
@@ -73,39 +114,12 @@ const Hero = () => {
         <Marquee />
       </motion.div>
 
-      {/* ── Video alanı ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="site-px mt-6"
-      >
-        <div
-          className="w-full relative overflow-hidden bg-black/5 rounded-sm"
-          style={{ aspectRatio: '1400 / 900' }}
-        >
-          {videoSrc ? (
-            <video
-              key={videoSrc}
-              className="w-full h-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-              src={videoSrc}
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-[#f0ede8]">
-              <div className="flex flex-col items-center gap-3 opacity-30">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-black">
-                  <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>
-                <span className="text-xs tracking-widest font-medium text-black uppercase">Video</span>
-              </div>
-            </div>
-          )}
-        </div>
-      </motion.div>
+      {/* ── 3 Video Alanı ── */}
+      <div className="flex flex-col gap-3 mt-6">
+        {videos.map((src, i) => (
+          <VideoSlot key={i} src={src} index={i} />
+        ))}
+      </div>
 
     </section>
   );

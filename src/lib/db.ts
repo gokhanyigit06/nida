@@ -46,6 +46,8 @@ export type SiteContent = {
   heroSub: string;
   marquee: string;
   heroVideo: string;
+  heroVideo2: string;
+  heroVideo3: string;
   stat1: string;
   stat2: string;
   stat3: string;
