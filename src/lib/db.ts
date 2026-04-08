@@ -52,6 +52,24 @@ export type SiteContent = {
   stat4: string;
 };
 
+export type AboutContent = {
+  heroDesc: string;
+  storyTitle: string;
+  storyDesc: string;
+  teamTitle: string;
+  clientsDesc: string;
+  yearRange: string;
+};
+
+export type ContactInfo = {
+  email: string;
+  phone: string;
+  instagram: string;
+  twitter: string;
+  linkedin: string;
+  address: string;
+};
+
 export type Service = {
   id: string;
   title: string;
@@ -99,6 +117,28 @@ export async function getSiteContent(): Promise<SiteContent | null> {
 
 export async function setSiteContent(data: SiteContent) {
   await setDoc(doc(db, "siteConfig", "homepage"), { ...data, updatedAt: serverTimestamp() });
+}
+
+// ── ABOUT (hakkımızda) ────────────────────────────────────────
+
+export async function getAboutContent(): Promise<AboutContent | null> {
+  const snap = await getDoc(doc(db, "siteConfig", "about"));
+  return snap.exists() ? (snap.data() as AboutContent) : null;
+}
+
+export async function setAboutContent(data: AboutContent) {
+  await setDoc(doc(db, "siteConfig", "about"), { ...data, updatedAt: serverTimestamp() });
+}
+
+// ── CONTACT INFO (iletişim bilgileri) ─────────────────────────
+
+export async function getContactInfo(): Promise<ContactInfo | null> {
+  const snap = await getDoc(doc(db, "siteConfig", "contact"));
+  return snap.exists() ? (snap.data() as ContactInfo) : null;
+}
+
+export async function setContactInfo(data: ContactInfo) {
+  await setDoc(doc(db, "siteConfig", "contact"), { ...data, updatedAt: serverTimestamp() });
 }
 
 // ── SERVICES (hizmetler) ──────────────────────────────────────

@@ -1,12 +1,27 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import StickyFooterReveal from '@/components/StickyFooterReveal';
+import { getContactInfo, ContactInfo } from '@/lib/db';
+
+const DEFAULTS: ContactInfo = {
+  email: "merhaba@nidastudio.com",
+  phone: "+90 500 123 45 67",
+  instagram: "https://instagram.com/nidastudio",
+  twitter: "https://twitter.com/nidastudio",
+  linkedin: "https://linkedin.com/company/nidastudio",
+  address: "Zorlu Center, Levent, İstanbul, Türkiye",
+};
 
 export default function ContactPage() {
   const [form, setForm] = useState({ isim: '', email: '', mesaj: '' });
   const [sent, setSent] = useState(false);
+  const [info, setInfo] = useState<ContactInfo>(DEFAULTS);
+
+  useEffect(() => {
+    getContactInfo().then((data) => { if (data) setInfo(data); });
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,27 +73,27 @@ export default function ContactPage() {
               {/* E-posta + Telefon */}
               <div className="pb-8 border-b border-black/8">
                 <a
-                  href="mailto:merhaba@nidastudio.com"
+                  href={`mailto:${info.email}`}
                   className="text-sm font-semibold text-black hover:opacity-50 transition-opacity block mb-1"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 >
-                  merhaba@nidastudio.com
+                  {info.email}
                 </a>
                 <a
-                  href="tel:+905001234567"
+                  href={`tel:${info.phone.replace(/\s/g, '')}`}
                   className="text-sm text-black/50 hover:opacity-50 transition-opacity block"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 >
-                  +90 500 123 45 67
+                  {info.phone}
                 </a>
               </div>
 
               {/* Sosyal Medya */}
               <div className="py-8 border-b border-black/8">
                 {[
-                  { label: 'Instagram', href: 'https://instagram.com/nidastudio' },
-                  { label: 'Twitter / X', href: 'https://twitter.com/nidastudio' },
-                  { label: 'LinkedIn', href: 'https://linkedin.com/company/nidastudio' },
+                  { label: 'Instagram', href: info.instagram },
+                  { label: 'Twitter / X', href: info.twitter },
+                  { label: 'LinkedIn', href: info.linkedin },
                 ].map((link) => (
                   <a
                     key={link.label}
@@ -99,8 +114,7 @@ export default function ContactPage() {
                   Ziyaret edin:
                 </p>
                 <p className="text-sm text-black/50 leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
-                  Zorlu Center, Levent<br />
-                  İstanbul, Türkiye
+                  {info.address}
                 </p>
               </div>
             </div>

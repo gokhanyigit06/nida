@@ -1,10 +1,20 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import StickyFooterReveal from '@/components/StickyFooterReveal';
+import { getAboutContent, AboutContent } from '@/lib/db';
+
+const DEFAULTS: AboutContent = {
+  heroDesc: "Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.",
+  storyTitle: "Nida, görüntünün bir markayı dönüştürebileceğine olan güçlü inançla doğdu.",
+  storyDesc: "Yaratıcı endüstrideki gürültü ve karmaşadan uzaklaşarak; farklı, net, niyet ve sadeliğe odaklanan bir stüdyo kurmak için yola çıktık.",
+  teamTitle: "Video editçiler, yaratıcı kafalar ve hikaye anlatıcılarından oluşan bir aileyiz.",
+  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyoruz.",
+  yearRange: "2020–2025",
+};
 
 const STATS = [
   '15+ Yıllık Deneyim',
@@ -56,6 +66,12 @@ const fadeUp = {
 };
 
 export default function AboutPage() {
+  const [content, setContent] = useState<AboutContent>(DEFAULTS);
+
+  useEffect(() => {
+    getAboutContent().then((data) => { if (data) setContent(data); });
+  }, []);
+
   return (
     <>
       <main className="relative z-10 bg-white">
@@ -80,7 +96,7 @@ export default function AboutPage() {
               className="hidden md:block text-sm text-black/50 leading-relaxed max-w-[220px] text-right pb-3 shrink-0"
               style={{ fontFamily: 'var(--font-inter)' }}
             >
-              Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.
+              {content.heroDesc}
             </motion.p>
           </div>
 
@@ -92,7 +108,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.6 }}
               className="absolute right-0 bottom-3 text-right hidden md:block"
             >
-              <div className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>2020–2025</div>
+              <div className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>{content.yearRange}</div>
               <div className="text-xs text-black/50 font-semibold" style={{ fontFamily: 'var(--font-inter)' }}>© Nida Studio</div>
             </motion.div>
           </div>
@@ -134,7 +150,7 @@ export default function AboutPage() {
             {/* Sol açıklama */}
             <div className="md:pt-4">
               <h2 className="text-2xl font-semibold text-black leading-[1.25] tracking-tight mb-4" style={{ fontFamily: 'var(--font-inter)' }}>
-                Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyoruz.
+                {content.clientsDesc}
               </h2>
               <p className="text-sm text-black/45 leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
                 İster global markalar ister yeni girişimler olsun; güven, niyet ve ortak vizyon üzerine kurulu her ilişkiye değer veriyoruz.
@@ -178,7 +194,7 @@ export default function AboutPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
               <div>
                 <h2 className="text-3xl md:text-4xl font-semibold text-white leading-[1.1] tracking-tight max-w-[520px]" style={{ fontFamily: 'var(--font-inter)' }}>
-                  Video editçiler, yaratıcı kafalar ve hikaye anlatıcılarından oluşan bir aileyiz.
+                  {content.teamTitle}
                 </h2>
                 <p className="text-sm text-white/45 mt-4 max-w-[360px] leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
                   Her proje, yakın işbirliği ve anlamlı üretime olan ortak bağlılıkla şekillenir.
@@ -231,12 +247,11 @@ export default function AboutPage() {
           </div>
 
           <h2 className="text-3xl md:text-5xl font-semibold leading-[1.1] tracking-tight mb-6 max-w-[900px]" style={{ fontFamily: 'var(--font-inter)' }}>
-            <span className="text-black">Nida, görüntünün </span>
-            <span className="text-black/25">bir markayı dönüştürebileceğine olan güçlü inançla doğdu.</span>
+            <span className="text-black">{content.storyTitle}</span>
           </h2>
 
           <p className="text-sm text-black/50 leading-relaxed max-w-[400px] mb-14" style={{ fontFamily: 'var(--font-inter)' }}>
-            Yaratıcı endüstrideki gürültü ve karmaşadan uzaklaşarak; farklı, net, niyet ve sadeliğe odaklanan bir stüdyo kurmak için yola çıktık.
+            {content.storyDesc}
           </p>
 
           {/* İki görsel */}
