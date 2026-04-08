@@ -14,7 +14,6 @@ const CONTACT_FIELDS = [
   { label: "Instagram", key: "instagram" },
   { label: "Twitter / X", key: "twitter" },
   { label: "LinkedIn", key: "linkedin" },
-  { label: "Adres", key: "address" },
 ];
 
 const DEFAULTS: ContactInfo = {

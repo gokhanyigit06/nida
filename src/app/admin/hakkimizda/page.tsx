@@ -4,27 +4,18 @@ import { getAboutContent, setAboutContent, AboutContent } from "@/lib/db";
 
 const SECTIONS = [
   { key: "heroDesc", label: "Hero Açıklama", type: "textarea" },
-  { key: "storyTitle", label: "Hikaye Başlığı", type: "textarea" },
-  { key: "storyDesc", label: "Hikaye Açıklaması", type: "textarea" },
-  { key: "teamTitle", label: "Ekip Bölümü Başlığı", type: "textarea" },
   { key: "clientsDesc", label: "Müşteriler Açıklaması", type: "textarea" },
   { key: "yearRange", label: "Yıl Aralığı", type: "text" },
 ];
 
 const DEFAULTS: AboutContent = {
   heroDesc: "Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.",
-  storyTitle: "Nida, görüntünün bir markayı dönüştürebileceğine olan güçlü inançla doğdu.",
-  storyDesc: "Yaratıcı endüstrideki gürültü ve karmaşadan uzaklaşarak; farklı, net, niyet ve sadeliğe odaklanan bir stüdyo kurmak için yola çıktık.",
-  teamTitle: "Video editçiler, yaratıcı kafalar ve hikaye anlatıcılarından oluşan bir aileyiz.",
+  storyTitle: "",
+  storyDesc: "",
+  teamTitle: "",
   clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyoruz.",
   yearRange: "2020–2025",
 };
-
-const TEAM_MEMBERS = [
-  { id: 1, name: "Nida Yılmaz", role: "Kurucu & Yaratıcı Direktör" },
-  { id: 2, name: "Mert Aydın", role: "Video Prodüksiyon Direktörü" },
-  { id: 3, name: "Selin Kaya", role: "İçerik & Strateji Uzmanı" },
-];
 
 export default function AdminHakkimizda() {
   const [values, setValues] = useState<AboutContent>(DEFAULTS);
@@ -74,8 +65,7 @@ export default function AdminHakkimizda() {
         </div>
       )}
 
-      {/* Metin içerikleri */}
-      <div className="flex flex-col gap-4 mb-8">
+      <div className="flex flex-col gap-4">
         <h2 className="text-sm font-semibold text-black/50 uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>İçerikler</h2>
         {loading ? (
           <div className="text-sm text-black/40 py-8 text-center" style={{ fontFamily: "var(--font-inter)" }}>Yükleniyor…</div>
@@ -95,25 +85,6 @@ export default function AdminHakkimizda() {
             </div>
           ))
         )}
-      </div>
-
-      {/* Ekip */}
-      <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold text-black/50 uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>Ekip Üyeleri</h2>
-        {TEAM_MEMBERS.map((m) => (
-          <div key={m.id} className="bg-white rounded-xl border border-black/8 p-5 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-black/8 flex items-center justify-center text-sm font-bold text-black/40 shrink-0">
-              {m.name.charAt(0)}
-            </div>
-            <div className="flex-1">
-              <div className="text-sm font-semibold text-black" style={{ fontFamily: "var(--font-inter)" }}>{m.name}</div>
-              <div className="text-xs text-black/45" style={{ fontFamily: "var(--font-inter)" }}>{m.role}</div>
-            </div>
-            <button className="text-xs text-black/35 hover:text-black font-medium transition-colors border border-black/10 px-3 py-1.5 rounded-lg" style={{ fontFamily: "var(--font-inter)" }}>
-              Fotoğraf Yükle
-            </button>
-          </div>
-        ))}
       </div>
     </div>
   );
