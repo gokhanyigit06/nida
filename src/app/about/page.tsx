@@ -16,32 +16,7 @@ const DEFAULTS: AboutContent = {
   yearRange: "2020–2025",
 };
 
-const STATS = [
-  '15+ Yıllık Deneyim',
-  '140+ Başarılı Proje',
-  '%97 Müşteri Memnuniyeti',
-  '6 Sektör Ödülü',
-];
 
-const StatsMarquee = () => {
-  const items = [...STATS, ...STATS, ...STATS, ...STATS];
-  return (
-    <div className="overflow-hidden border-t border-black/10 py-3 mt-10 relative">
-      <motion.div
-        className="flex whitespace-nowrap"
-        animate={{ x: [0, '-50%'] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-      >
-        {items.map((item, i) => (
-          <span key={i} className="inline-flex items-center gap-5 text-xs font-medium tracking-[0.18em] text-black/40 pr-10" style={{ fontFamily: 'var(--font-inter)' }}>
-            {item}
-            <span className="text-black/20 text-[8px]">/</span>
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-};
 
 const CLIENTS = [
   { name: 'Norda',      year: '2025', icon: <polygon points="24,4 44,40 4,40" fill="none" stroke="currentColor" strokeWidth="1.5" /> },
@@ -67,14 +42,18 @@ const fadeUp = {
 
 export default function AboutPage() {
   const [content, setContent] = useState<AboutContent>(DEFAULTS);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    getAboutContent().then((data) => { if (data) setContent(data); });
+    getAboutContent().then((data) => {
+      if (data) setContent(data);
+      setLoaded(true);
+    });
   }, []);
 
   return (
     <>
-      <main className="relative z-10 bg-white">
+      <main className={`relative z-10 bg-white transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
         <Header />
 
         {/* ── Hero Başlık ── */}
@@ -89,28 +68,6 @@ export default function AboutPage() {
             >
               hakkımda.
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="hidden md:block text-sm text-black/50 leading-relaxed max-w-[220px] text-right pb-3 shrink-0"
-              style={{ fontFamily: 'var(--font-inter)' }}
-            >
-              {content.heroDesc}
-            </motion.p>
-          </div>
-
-          <div className="relative">
-            <StatsMarquee />
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="absolute right-0 bottom-3 text-right hidden md:block"
-            >
-              <div className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>{content.yearRange}</div>
-              <div className="text-xs text-black/50 font-semibold" style={{ fontFamily: 'var(--font-inter)' }}>© Nida Studio</div>
-            </motion.div>
           </div>
         </div>
 

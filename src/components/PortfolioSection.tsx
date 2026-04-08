@@ -111,7 +111,7 @@ const PortfolioSection = () => {
             Seçili Çalışmalar.
           </h2>
           <p className="text-sm text-black/45 font-normal mt-3 max-w-[260px] leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
-            Markaların özünü yansıtan, sade ve etkili tasarım projelerimiz.
+            Markaların özünü yansıtan, sade ve etkili tasarım projelerim.
           </p>
         </div>
         <Link href="/work" className="hidden md:inline-flex items-center gap-2 border border-black/20 rounded-full px-5 py-2.5 text-sm font-medium text-black hover:bg-black hover:text-white transition-all duration-200 shrink-0" style={{ fontFamily: 'var(--font-inter)' }}>
