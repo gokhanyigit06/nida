@@ -6,8 +6,16 @@ import {
   addService,
   updateService,
   deleteService,
+  getHizmetlerConfig,
+  setHizmetlerConfig,
   Service,
+  HizmetlerConfig,
 } from "@/lib/db";
+
+const CTA_DEFAULTS: HizmetlerConfig = {
+  ctaTitle: "Fikrinizi Gerçeğe Dönüştürelim.",
+  ctaButton: "Projeyi Anlat →",
+};
 
 const empty: Omit<Service, "id"> = { title: "", description: "", tags: "", order: 0 };
 
@@ -19,6 +27,9 @@ export default function AdminHizmetler() {
   const [isNew, setIsNew] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [cta, setCta] = useState<HizmetlerConfig>(CTA_DEFAULTS);
+  const [ctaSaving, setCtaSaving] = useState(false);
+  const [ctaSaved, setCtaSaved] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -32,7 +43,18 @@ export default function AdminHizmetler() {
     }
   };
 
-  useEffect(() => { load(); }, []);
+  const saveCta = async () => {
+    setCtaSaving(true);
+    try {
+      await setHizmetlerConfig(cta);
+      setCtaSaved(true);
+      setTimeout(() => setCtaSaved(false), 2000);
+    } finally {
+      setCtaSaving(false);
+    }
+  };
+
+  useEffect(() => { load(); getHizmetlerConfig().then((d) => { if (d) setCta(d); }); }, []);
 
   const openNew = () => { setEdit({ ...empty, order: services.length }); setIsNew(true); setShowModal(true); };
   const openEdit = (s: Service) => { setEdit({ ...s }); setIsNew(false); setShowModal(true); };
@@ -153,6 +175,29 @@ export default function AdminHizmetler() {
           </>
         )}
       </AnimatePresence>
+
+      {/* ── CTA Editörü ── */}
+      <div className="mt-12 bg-white rounded-2xl border border-black/8 p-6">
+        <h2 className="text-base font-semibold text-black mb-5" style={{ fontFamily: "var(--font-inter)" }}>CTA Bölümü</h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="text-xs font-semibold text-black block mb-1.5" style={{ fontFamily: "var(--font-inter)" }}>Başlık</label>
+            <input type="text" value={cta.ctaTitle} onChange={(e) => setCta((p) => ({ ...p, ctaTitle: e.target.value }))}
+              className="w-full bg-black/[0.04] rounded-lg px-4 py-3 text-sm text-black outline-none focus:bg-black/[0.07] transition-colors" style={{ fontFamily: "var(--font-inter)" }} />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-black block mb-1.5" style={{ fontFamily: "var(--font-inter)" }}>Buton Metni</label>
+            <input type="text" value={cta.ctaButton} onChange={(e) => setCta((p) => ({ ...p, ctaButton: e.target.value }))}
+              className="w-full bg-black/[0.04] rounded-lg px-4 py-3 text-sm text-black outline-none focus:bg-black/[0.07] transition-colors" style={{ fontFamily: "var(--font-inter)" }} />
+          </div>
+          <button onClick={saveCta} disabled={ctaSaving}
+            className="self-end bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-black/80 transition-colors disabled:opacity-50"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            {ctaSaving ? "Kaydediliyor…" : ctaSaved ? "✓ Kaydedildi" : "Kaydet"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

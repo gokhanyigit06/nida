@@ -11,13 +11,13 @@ const Footer = () => {
       <div className="max-w-[1400px] mx-auto relative z-10">
         
         {/* Huge Text Section */}
-        <div className="text-center mb-16 md:mb-24 flex flex-col items-center pt-8 md:pt-12">
+        <div className="text-center mb-16 md:mb-24 flex flex-col items-center pt-16 md:pt-20">
           
           {/* Rotating Star */}
           <motion.div 
              animate={{ rotate: 360 }}
              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-             className="w-8 h-8 md:w-12 md:h-12 opacity-80 mb-14"
+             className="w-8 h-8 md:w-12 md:h-12 opacity-80 mb-20"
           >
              <svg viewBox="0 0 24 24" fill="#ffffff" className="w-full h-full">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>

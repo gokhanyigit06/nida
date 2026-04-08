@@ -4,8 +4,13 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import StickyFooterReveal from '@/components/StickyFooterReveal';
-import { servicesCollection, type Service } from '@/lib/db';
+import { servicesCollection, getHizmetlerConfig, type Service, type HizmetlerConfig } from '@/lib/db';
 import { query, orderBy, onSnapshot } from 'firebase/firestore';
+
+const CTA_DEFAULTS: HizmetlerConfig = {
+  ctaTitle: 'Fikrinizi Gerçeğe Dönüştürelim.',
+  ctaButton: 'Projeyi Anlat →',
+};
 
 const FALLBACK: Service[] = [
   {
@@ -81,6 +86,7 @@ const ServiceRow = ({ service, index }: { service: Service; index: number }) => 
 
 export default function HizmetlerPage() {
   const [services, setServices] = useState<Service[]>(FALLBACK);
+  const [cta, setCta] = useState<HizmetlerConfig>(CTA_DEFAULTS);
 
   useEffect(() => {
     const q = query(servicesCollection, orderBy('order', 'asc'));
@@ -88,6 +94,7 @@ export default function HizmetlerPage() {
       const data = snap.docs.map((d) => ({ id: d.id, ...d.data() } as Service));
       if (data.length > 0) setServices(data);
     });
+    getHizmetlerConfig().then((d) => { if (d) setCta(d); });
     return unsub;
   }, []);
 
@@ -129,7 +136,7 @@ export default function HizmetlerPage() {
               className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-[1.05] tracking-tight max-w-[460px]"
               style={{ fontFamily: 'var(--font-inter)' }}
             >
-              Fikrinizi Gerçeğe Dönüştürelim.
+              {cta.ctaTitle}
             </h2>
             <div className="flex flex-col items-start gap-6 shrink-0">
               <Link
@@ -137,7 +144,7 @@ export default function HizmetlerPage() {
                 className="inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-all duration-200"
                 style={{ fontFamily: 'var(--font-inter)' }}
               >
-                Projeyi Anlat →
+                {cta.ctaButton}
               </Link>
             </div>
           </div>

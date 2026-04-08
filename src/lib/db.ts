@@ -163,6 +163,23 @@ export async function deleteService(id: string) {
   await deleteDoc(doc(db, "services", id));
 }
 
+// ── HIZMETLER CONFIG (CTA bölümü) ────────────────────────────
+
+export type HizmetlerConfig = {
+  ctaTitle: string;
+  ctaButton: string;
+};
+
+export async function getHizmetlerConfig(): Promise<HizmetlerConfig | null> {
+  const snap = await getDoc(doc(db, "siteConfig", "hizmetler"));
+  return snap.exists() ? (snap.data() as HizmetlerConfig) : null;
+}
+
+export async function setHizmetlerConfig(data: HizmetlerConfig) {
+  await setDoc(doc(db, "siteConfig", "hizmetler"), { ...data, updatedAt: serverTimestamp() });
+}
+
+
 // ── STORAGE — Video / Görsel yükleme ─────────────────────────
 
 export type UploadProgress = { progress: number; url?: string; error?: string };
