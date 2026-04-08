@@ -1,6 +1,7 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { getSiteContent } from '@/lib/db';
 
 const SERVICES = [
   'VIDEO KURGU',
@@ -32,14 +33,20 @@ const Marquee = () => {
 };
 
 const Hero = () => {
+  const [videoSrc, setVideoSrc] = useState<string>('');
+
+  useEffect(() => {
+    getSiteContent().then((data) => {
+      if (data?.heroVideo) setVideoSrc(data.heroVideo);
+    });
+  }, []);
+
   return (
     <section className="bg-white w-full">
 
-      {/* ── Üst giriş: başlık + sağ panel ── */}
+      {/* ── Üst giriş: başlık ── */}
       <div className="site-px pt-10 pb-0">
         <div className="flex items-start gap-10">
-
-          {/* Büyük başlık — esnek, taşmaz */}
           <motion.div
             className="flex-1 min-w-0"
             initial={{ opacity: 0, y: 24 }}
@@ -53,13 +60,10 @@ const Hero = () => {
               Nida Studio<sup className="text-[4vw] align-super font-light">®</sup>
             </h1>
           </motion.div>
-
-          {/* Sağ panel: rating + açıklama */}
         </div>
-
       </div>
 
-      {/* ── Servis marquee — 135 px içinde ── */}
+      {/* ── Servis marquee ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -69,7 +73,7 @@ const Hero = () => {
         <Marquee />
       </motion.div>
 
-      {/* ── Video alanı — 1400×900 oranı ── */}
+      {/* ── Video alanı ── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -80,26 +84,28 @@ const Hero = () => {
           className="w-full relative overflow-hidden bg-black/5 rounded-sm"
           style={{ aspectRatio: '1400 / 900' }}
         >
-          <video
-            className="w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            // src="/hero-video.mp4"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-[#f0ede8]">
-            <div className="flex flex-col items-center gap-3 opacity-30">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-black">
-                <polygon points="5 3 19 12 5 21 5 3"/>
-              </svg>
-              <span className="text-xs tracking-widest font-medium text-black uppercase">Video</span>
+          {videoSrc ? (
+            <video
+              key={videoSrc}
+              className="w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              src={videoSrc}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-[#f0ede8]">
+              <div className="flex flex-col items-center gap-3 opacity-30">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-black">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span className="text-xs tracking-widest font-medium text-black uppercase">Video</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </motion.div>
-
-
 
     </section>
   );

@@ -47,15 +47,6 @@ export default function ContactPage() {
               konuşalım.
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="hidden md:block text-sm text-black/50 leading-relaxed max-w-[240px] text-right pb-3 shrink-0"
-              style={{ fontFamily: 'var(--font-inter)' }}
-            >
-              Projenizden, bir fikirden veya aklınızdaki sorudan bahsedin. Size 1-2 iş günü içinde geri dönüş sağlayacağız.
-            </motion.p>
           </div>
         </div>
 

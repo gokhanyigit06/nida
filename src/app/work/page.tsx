@@ -114,10 +114,6 @@ export default function WorkPage() {
               className="text-[10vw] font-light leading-[0.9] tracking-tight text-black" style={{ fontFamily: 'var(--font-inter)' }}>
               Projects.
             </motion.h1>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }}
-              className="hidden md:block text-sm text-black/50 leading-relaxed max-w-[220px] text-right pb-3 shrink-0" style={{ fontFamily: 'var(--font-inter)' }}>
-              Sadelik ve kasti tasarıma olan bağlılığımızı yansıtan, özenle seçilmiş projelerimiz.
-            </motion.p>
           </div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}
