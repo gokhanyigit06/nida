@@ -69,7 +69,7 @@ export default function AdminDashboard() {
           { title: "Çalışmalar", desc: "Proje ekle, düzenle, video yükle", href: "/admin/calishmalar" },
           { title: "Anasayfa", desc: "Hero, marquee, istatistikler", href: "/admin/anasayfa" },
           { title: "Hizmetler", desc: "Hizmet içeriklerini güncelle", href: "/admin/hizmetler" },
-          { title: "Hakkımızda", desc: "Ekip, müşteriler, hikaye", href: "/admin/hakkimizda" },
+          { title: "Hakkımda", desc: "Hakkımda, müşteriler", href: "/admin/hakkimizda" },
           { title: "İletişim", desc: "Form mesajları ve iletişim bilgileri", href: "/admin/iletisim" },
           { title: "Medya", desc: "Tüm görseller ve videolar", href: "/admin/medya" },
         ].map((item, i) => (

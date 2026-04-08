@@ -43,7 +43,7 @@ const NAV = [
     ),
   },
   {
-    label: "Hakkımızda",
+    label: "Hakkımda",
     href: "/admin/hakkimizda",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

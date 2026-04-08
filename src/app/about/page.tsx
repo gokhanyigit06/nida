@@ -12,7 +12,7 @@ const DEFAULTS: AboutContent = {
   storyTitle: "Nida, görüntünün bir markayı dönüştürebileceğine olan güçlü inançla doğdu.",
   storyDesc: "Yaratıcı endüstrideki gürültü ve karmaşadan uzaklaşarak; farklı, net, niyet ve sadeliğe odaklanan bir stüdyo kurmak için yola çıktık.",
   teamTitle: "Video editçiler, yaratıcı kafalar ve hikaye anlatıcılarından oluşan bir aileyiz.",
-  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyoruz.",
+  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyorum.",
   yearRange: "2020–2025",
 };
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
               className="text-[10vw] font-light leading-[0.9] tracking-tight text-black"
               style={{ fontFamily: 'var(--font-inter)' }}
             >
-              hakkımızda.
+              hakkımda.
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -142,7 +142,7 @@ export default function AboutPage() {
         {/* ── Müşterilerimiz ── */}
         <motion.div {...fadeUp} className="site-px mt-24 pb-20">
           <div className="flex justify-between items-center mb-12">
-            <span className="text-xs text-black/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Müşterilerimiz</span>
+            <span className="text-xs text-black/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Müşterilerim</span>
             <span className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>(02)</span>
           </div>
 

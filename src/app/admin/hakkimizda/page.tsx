@@ -13,7 +13,7 @@ const DEFAULTS: AboutContent = {
   storyTitle: "",
   storyDesc: "",
   teamTitle: "",
-  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyoruz.",
+  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyorum.",
   yearRange: "2020–2025",
 };
 
@@ -48,7 +48,7 @@ export default function AdminHakkimizda() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold text-black tracking-tight" style={{ fontFamily: "var(--font-inter)" }}>Hakkımızda</h1>
+        <h1 className="text-2xl font-semibold text-black tracking-tight" style={{ fontFamily: "var(--font-inter)" }}>Hakkımda</h1>
         <button
           onClick={handleSave}
           disabled={saving || loading}

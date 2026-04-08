@@ -32,7 +32,7 @@ const Header = () => {
           {[
             { label: 'çalışmalar', href: '/work' },
             { label: 'hizmetler', href: '/hizmetler' },
-            { label: 'hakkımızda', href: '/about' },
+            { label: 'hakkımda', href: '/about' },
           ].map((item) => (
             <Link
               key={item.href}
@@ -84,7 +84,7 @@ const Header = () => {
               {[
                 { label: 'çalışmalar', href: '/work' },
                 { label: 'hizmetler', href: '/hizmetler' },
-                { label: 'hakkımızda', href: '/about' },
+                { label: 'hakkımda', href: '/about' },
                 { label: 'iletişim', href: '/contact' },
               ].map((item) => (
                 <Link
