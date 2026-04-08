@@ -1,19 +1,21 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { getAboutContent, setAboutContent, AboutContent } from "@/lib/db";
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { getAboutContent, setAboutContent, uploadFile, AboutContent } from "@/lib/db";
 
 const SECTIONS = [
-  { key: "heroDesc", label: "Hero Açıklama", type: "textarea" },
-  { key: "clientsDesc", label: "Müşteriler Açıklaması", type: "textarea" },
-  { key: "yearRange", label: "Yıl Aralığı", type: "text" },
+  { key: "heroTitle", label: "Hero Başlığı", type: "text", desc: "Büyük başlık metni (örn: hakkımda.)" },
+  { key: "yearRange", label: "Yıl Aralığı", type: "text", desc: "Deneyim yıl aralığı" },
 ];
 
 const DEFAULTS: AboutContent = {
-  heroDesc: "Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.",
+  heroTitle: "hakkımda.",
+  heroImage: "",
+  heroDesc: "",
   storyTitle: "",
   storyDesc: "",
   teamTitle: "",
-  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyorum.",
+  clientsDesc: "",
   yearRange: "2020–2025",
 };
 
@@ -23,10 +25,12 @@ export default function AdminHakkimizda() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getAboutContent()
-      .then((data) => { if (data) setValues(data); })
+      .then((data) => { if (data) setValues((p) => ({ ...p, ...data })); })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -45,10 +49,29 @@ export default function AdminHakkimizda() {
     }
   };
 
+  const handlePhoto = (file: File) => {
+    setUploadProgress(0);
+    const path = `about/hero_${Date.now()}_${file.name}`;
+    uploadFile(file, path, (state) => {
+      setUploadProgress(state.progress);
+      if (state.url) {
+        setValues((p) => ({ ...p, heroImage: state.url! }));
+        setUploadProgress(null);
+      }
+      if (state.error) {
+        setError(state.error);
+        setUploadProgress(null);
+      }
+    });
+  };
+
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold text-black tracking-tight" style={{ fontFamily: "var(--font-inter)" }}>Hakkımda</h1>
+        <div>
+          <h1 className="text-2xl font-semibold text-black tracking-tight" style={{ fontFamily: "var(--font-inter)" }}>Hakkımda</h1>
+          <p className="text-sm text-black/45 mt-0.5" style={{ fontFamily: "var(--font-inter)" }}>Hero görseli ve başlık</p>
+        </div>
         <button
           onClick={handleSave}
           disabled={saving || loading}
@@ -65,27 +88,81 @@ export default function AdminHakkimizda() {
         </div>
       )}
 
-      <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold text-black/50 uppercase tracking-wider" style={{ fontFamily: "var(--font-inter)" }}>İçerikler</h2>
-        {loading ? (
-          <div className="text-sm text-black/40 py-8 text-center" style={{ fontFamily: "var(--font-inter)" }}>Yükleniyor…</div>
-        ) : (
-          SECTIONS.map((item) => (
-            <div key={item.key} className="bg-white rounded-xl border border-black/8 p-5">
-              <label className="text-sm font-semibold text-black block mb-3" style={{ fontFamily: "var(--font-inter)" }}>{item.label}</label>
-              {item.type === "textarea" ? (
-                <textarea rows={3} value={(values as Record<string, string>)[item.key] ?? ""}
-                  onChange={(e) => setValues((p) => ({ ...p, [item.key]: e.target.value }))}
-                  className="w-full bg-black/[0.04] rounded-lg px-4 py-3 text-sm text-black outline-none focus:bg-black/[0.07] transition-colors resize-none" style={{ fontFamily: "var(--font-inter)" }} />
+      {loading ? (
+        <div className="text-sm text-black/40 py-12 text-center" style={{ fontFamily: "var(--font-inter)" }}>Yükleniyor…</div>
+      ) : (
+        <div className="flex flex-col gap-4">
+
+          {/* ── Hero Görseli ── */}
+          <div className="bg-white rounded-xl border border-black/8 p-5">
+            <div className="text-sm font-semibold text-black mb-1" style={{ fontFamily: "var(--font-inter)" }}>Hero Görseli</div>
+            <div className="text-xs text-black/40 mb-4" style={{ fontFamily: "var(--font-inter)" }}>Hakkımda sayfasındaki büyük görsel (21:9 oran önerilir)</div>
+
+            {/* Preview */}
+            <div
+              className="w-full relative overflow-hidden rounded-lg bg-black/[0.04] border border-black/8 mb-4"
+              style={{ aspectRatio: '21 / 9' }}
+            >
+              {values.heroImage ? (
+                <Image src={values.heroImage} alt="Hero" fill className="object-cover" />
               ) : (
-                <input type="text" value={(values as Record<string, string>)[item.key] ?? ""}
-                  onChange={(e) => setValues((p) => ({ ...p, [item.key]: e.target.value }))}
-                  className="w-full bg-black/[0.04] rounded-lg px-4 py-3 text-sm text-black outline-none focus:bg-black/[0.07] transition-colors" style={{ fontFamily: "var(--font-inter)" }} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-2 opacity-30">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                      <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <span className="text-xs text-black font-medium" style={{ fontFamily: "var(--font-inter)" }}>Görsel yok</span>
+                  </div>
+                </div>
               )}
             </div>
-          ))
-        )}
-      </div>
+
+            <div className="flex gap-3 items-center">
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploadProgress !== null}
+                className="px-4 py-2.5 bg-black text-white text-sm font-semibold rounded-lg hover:bg-black/80 transition-colors disabled:opacity-50"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                {uploadProgress !== null ? `Yükleniyor %${Math.round(uploadProgress)}` : "Fotoğraf Yükle"}
+              </button>
+              {values.heroImage && (
+                <button
+                  type="button"
+                  onClick={() => setValues((p) => ({ ...p, heroImage: "" }))}
+                  className="text-sm text-red-400 hover:text-red-600 font-medium"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  Kaldır
+                </button>
+              )}
+            </div>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) handlePhoto(f); }}
+            />
+          </div>
+
+          {/* ── Metin Alanları ── */}
+          {SECTIONS.map((item) => (
+            <div key={item.key} className="bg-white rounded-xl border border-black/8 p-5">
+              <div className="text-sm font-semibold text-black mb-0.5" style={{ fontFamily: "var(--font-inter)" }}>{item.label}</div>
+              <div className="text-xs text-black/40 mb-3" style={{ fontFamily: "var(--font-inter)" }}>{item.desc}</div>
+              <input
+                type="text"
+                value={(values as Record<string, string>)[item.key] ?? ""}
+                onChange={(e) => setValues((p) => ({ ...p, [item.key]: e.target.value }))}
+                className="w-full bg-black/[0.04] rounded-lg px-4 py-3 text-sm text-black outline-none focus:bg-black/[0.07] transition-colors"
+                style={{ fontFamily: "var(--font-inter)" }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

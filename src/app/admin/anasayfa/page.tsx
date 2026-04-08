@@ -9,23 +9,19 @@ const ITEMS = [
   { label: "Hero Video 1", key: "heroVideo", type: "text", desc: "1. video URL" },
   { label: "Hero Video 2", key: "heroVideo2", type: "text", desc: "2. video URL" },
   { label: "Hero Video 3", key: "heroVideo3", type: "text", desc: "3. video URL" },
-  { label: "120+ Proje Sayısı", key: "stat1", type: "text", desc: "İstatistik 1" },
-  { label: "Müşteri Sayısı", key: "stat2", type: "text", desc: "İstatistik 2" },
-  { label: "Memnuniyet Oranı", key: "stat3", type: "text", desc: "İstatistik 3" },
-  { label: "Deneyim Yılı", key: "stat4", type: "text", desc: "İstatistik 4" },
 ];
 
 const DEFAULTS: SiteContent = {
   heroTitle: "Nida Studio®",
   heroSub: "Video prodüksiyon ve yaratıcı içerik stüdyosu.",
   marquee: "Video Prodüksiyon · Kurgu & Post-Prodüksiyon · Sosyal Medya İçeriği · Marka Videolar ·",
-  heroVideo: "/hero-video.mp4",
+  heroVideo: "",
   heroVideo2: "",
   heroVideo3: "",
-  stat1: "120+",
-  stat2: "100+",
-  stat3: "%97",
-  stat4: "5+",
+  stat1: "",
+  stat2: "",
+  stat3: "",
+  stat4: "",
 };
 
 export default function AdminAnasayfa() {

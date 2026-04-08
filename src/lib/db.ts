@@ -55,6 +55,8 @@ export type SiteContent = {
 };
 
 export type AboutContent = {
+  heroTitle: string;
+  heroImage: string;
   heroDesc: string;
   storyTitle: string;
   storyDesc: string;

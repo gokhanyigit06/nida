@@ -8,11 +8,13 @@ import StickyFooterReveal from '@/components/StickyFooterReveal';
 import { getAboutContent, getBrands, AboutContent, Brand } from '@/lib/db';
 
 const DEFAULTS: AboutContent = {
-  heroDesc: "Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.",
-  storyTitle: "Nida, görüntünün bir markayı dönüştürebileceğine olan güçlü inançla doğdu.",
-  storyDesc: "Yaratıcı endüstrideki gürültü ve karmaşadan uzaklaşarak; farklı, net, niyet ve sadeliğe odaklanan bir stüdyo kurmak için yola çıktık.",
-  teamTitle: "Video editçiler, yaratıcı kafalar ve hikaye anlatıcılarından oluşan bir aileyiz.",
-  clientsDesc: "Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyorum.",
+  heroTitle: "hakkımda.",
+  heroImage: "",
+  heroDesc: "",
+  storyTitle: "",
+  storyDesc: "",
+  teamTitle: "",
+  clientsDesc: "",
   yearRange: "2020–2025",
 };
 
@@ -56,7 +58,7 @@ export default function AboutPage() {
               className="text-[10vw] font-light leading-[0.9] tracking-tight text-black"
               style={{ fontFamily: 'var(--font-inter)' }}
             >
-              hakkımda.
+              {content.heroTitle || 'hakkımda.'}
             </motion.h1>
           </div>
         </div>
@@ -67,22 +69,24 @@ export default function AboutPage() {
             className="w-full relative overflow-hidden rounded-xl bg-[#e8e2da]"
             style={{ aspectRatio: '21 / 9' }}
           >
-            <Image
-              src="/about-hero.jpg"
-              alt="Nida Studio"
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-              priority
-            />
-            {/* Placeholder — görsel yokken */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center opacity-20">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-                </svg>
+            {content.heroImage ? (
+              <Image
+                src={content.heroImage}
+                alt="Hakkımda"
+                fill
+                className="object-cover object-center"
+                sizes="100vw"
+                priority
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center opacity-20">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+                  </svg>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </motion.div>
 
