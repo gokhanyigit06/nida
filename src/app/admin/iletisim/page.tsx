@@ -12,7 +12,6 @@ const CONTACT_FIELDS = [
   { label: "E-posta", key: "email" },
   { label: "Telefon", key: "phone" },
   { label: "Instagram", key: "instagram" },
-  { label: "Twitter / X", key: "twitter" },
   { label: "LinkedIn", key: "linkedin" },
 ];
 

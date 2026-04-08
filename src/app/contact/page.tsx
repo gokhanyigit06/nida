@@ -83,7 +83,6 @@ export default function ContactPage() {
               <div className="py-8 border-b border-black/8">
                 {[
                   { label: 'Instagram', href: info.instagram },
-                  { label: 'Twitter / X', href: info.twitter },
                   { label: 'LinkedIn', href: info.linkedin },
                 ].map((link) => (
                   <a
