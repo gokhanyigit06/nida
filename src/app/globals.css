@@ -27,6 +27,27 @@ body {
   overflow-x: hidden;
 }
 
+/* ── 135px yatay padding sistemi ── */
+.site-px {
+  padding-left: 135px;
+  padding-right: 135px;
+}
+
+@media (max-width: 1024px) {
+  .site-px {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-px {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+
 .blue-dotted-bg {
   background-color: var(--bg-color);
   color: white;

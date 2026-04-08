@@ -2,83 +2,102 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <motion.header 
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed md:absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-[1200px] bg-white text-black px-8 md:px-12 py-3 md:py-6 rounded-full shadow-2xl flex justify-between items-center transition-all duration-300"
+      <motion.header
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="w-full bg-white border-b border-black/8 flex items-center justify-between site-px py-1 z-[100] relative"
       >
-        <Link href="/" className="no-underline color-inherit">
-          <div className="heading-font text-2xl md:text-3xl tracking-tighter">
-            NİDA
-          </div>
+        {/* Logo */}
+        <Link href="/" className="flex items-center no-underline group shrink-0">
+          <Image
+            src="/nida-logo.svg"
+            alt="Nida"
+            width={114}
+            height={56}
+            priority
+            className="h-14 w-auto object-contain"
+          />
         </Link>
-        
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 font-bold text-lg">
-          <Link href="/" className="hover:opacity-70 transition-opacity">Home</Link>
-          <Link href="/work" className="hover:opacity-70 transition-opacity">Works</Link>
-          <Link href="/about" className="hover:opacity-70 transition-opacity">About</Link>
-          <Link href="/contact" className="hover:opacity-70 transition-opacity">Contact</Link>
+
+        {/* Desktop Center Nav */}
+        <nav className="hidden md:flex items-center gap-10">
+          {[
+            { label: 'çalışmalar', href: '/work' },
+            { label: 'hizmetler', href: '/hizmetler' },
+            { label: 'hakkımızda', href: '/about' },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-black text-xl font-medium hover:opacity-50 transition-opacity duration-200 lowercase tracking-wide"
+              style={{ fontFamily: 'var(--font-inter)' }}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Desktop CTA */}
-        <Link href="/contact" className="hidden md:block no-underline">
-          <div className="font-bold text-3xl text-[#cc0000] flex items-center gap-1 group">
-            Let's Talk <span className="group-hover:translate-x-1 transition-transform">→</span>
+        {/* Desktop Right */}
+        <div className="hidden md:flex items-center gap-5">
+          <div className="border border-black/25 rounded-full px-3.5 py-1.5 text-base font-medium tracking-widest text-black cursor-pointer hover:bg-black hover:text-white transition-all duration-200">
+            TR
           </div>
-        </Link>
+          <Link
+            href="/contact"
+            className="text-black text-xl font-semibold hover:opacity-50 transition-opacity duration-200 lowercase tracking-wide"
+            style={{ fontFamily: 'var(--font-inter)' }}
+          >
+            iletişim
+          </Link>
+        </div>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden flex flex-col gap-1.5 p-2"
+          aria-label="Menüyü aç/kapat"
         >
-          <motion.div 
-            animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            className="w-6 h-0.5 bg-current rounded-full" 
-          />
-          <motion.div 
-            animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-            className="w-6 h-0.5 bg-current rounded-full" 
-          />
-          <motion.div 
-            animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            className="w-6 h-0.5 bg-current rounded-full" 
-          />
+          <motion.div animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }} className="w-5 h-px bg-black" />
+          <motion.div animate={isOpen ? { opacity: 0 } : { opacity: 1 }} className="w-5 h-px bg-black" />
+          <motion.div animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }} className="w-5 h-px bg-black" />
         </button>
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[90] bg-white pt-32 px-8 md:hidden flex flex-col gap-8 text-center"
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed inset-0 z-[90] bg-white pt-24 px-8 md:hidden flex flex-col"
           >
-            <nav className="flex flex-col gap-6 text-3xl font-bold uppercase tracking-tighter" style={{ fontFamily: 'var(--font-archivo-black)' }}>
-              <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
-              <Link href="/work" onClick={() => setIsOpen(false)}>Works</Link>
-              <Link href="/about" onClick={() => setIsOpen(false)}>About</Link>
-              <Link href="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
+            <nav className="flex flex-col gap-8">
+              {[
+                { label: 'çalışmalar', href: '/work' },
+                { label: 'hizmetler', href: '/hizmetler' },
+                { label: 'hakkımızda', href: '/about' },
+                { label: 'iletişim', href: '/contact' },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-4xl font-black text-black lowercase tracking-tighter border-b border-black/10 pb-6"
+                  style={{ fontFamily: 'var(--font-archivo-black)' }}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </nav>
-            
-            <Link 
-              href="/contact" 
-              onClick={() => setIsOpen(false)}
-              className="mt-8 bg-[#1D6BFF] text-white py-6 rounded-3xl text-2xl font-black"
-              style={{ fontFamily: 'var(--font-archivo-black)' }}
-            >
-              LET'S TALK →
-            </Link>
           </motion.div>
         )}
       </AnimatePresence>

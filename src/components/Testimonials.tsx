@@ -22,7 +22,7 @@ const Testimonials = () => {
     if (testimonials.length === 0) return null;
 
   return (
-    <section id="testimonials" className="px-6 py-20 md:px-16 md:py-32 bg-[#fcd3ef] relative overflow-hidden">
+    <section id="testimonials" className="site-px py-20 md:py-32 bg-[#fcd3ef] relative overflow-hidden">
       
       {/* Scalloped Border Overlay */}
       <div className="scalloped-top brightness-[10] absolute top-0 left-0 w-full h-8 z-10" />

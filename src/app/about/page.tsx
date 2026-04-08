@@ -1,249 +1,269 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import React from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Image from 'next/image';
+import Header from '@/components/Header';
+import StickyFooterReveal from '@/components/StickyFooterReveal';
 
-const defaultData = {
-  heroTagline: "WE ARE NIDA",
-  heroQuote: "A creative agency obsessed with making brands unforgettable.",
+const STATS = [
+  '15+ Yıllık Deneyim',
+  '140+ Başarılı Proje',
+  '%97 Müşteri Memnuniyeti',
+  '6 Sektör Ödülü',
+];
 
-  whoTitle: "WHO WE ARE",
-  whoPara1: "Nida is a full-service creative studio built for brands that refuse to blend in. We craft visual identities, marketing strategies, and content that makes people stop scrolling.",
-  whoPara2: "From video editing to digital strategy — we bring the creative firepower brands need to grow. Every project is an opportunity to build something that lasts.",
-
-  missionTitle: "OUR MISSION",
-  missionText: "To turn bold ideas into unforgettable experiences. We believe great creative work doesn't just look good — it works hard, moves people, and drives results.",
-
-  visionTitle: "OUR VISION",
-  visionText: "A world where every brand tells a story worth hearing. We exist to be the creative partner that makes that happen.",
-
-  stat1Value: "150+",
-  stat1Label: "Projects Delivered",
-  stat2Value: "4",
-  stat2Label: "Years of Experience",
-  stat3Value: "98%",
-  stat3Label: "Client Satisfaction",
-  stat4Value: "12",
-  stat4Label: "Industry Awards",
-
-  value1Title: "BOLD CREATIVITY",
-  value1Text: "We push past the obvious and find ideas that surprise.",
-  value2Title: "RESULTS FIRST",
-  value2Text: "Beautiful work that also drives measurable business outcomes.",
-  value3Title: "RADICAL HONESTY",
-  value3Text: "We tell you what you need to hear, not just what you want.",
-  value4Title: "RELENTLESS CRAFT",
-  value4Text: "Every pixel, every word, every frame — obsessively refined.",
-
-  team1Name: "Nida Yılmaz",
-  team1Role: "Founder & Creative Director",
-  team1Bio: "With a decade of experience across global brands, Nida built this agency to prove that world-class creative work can come from anywhere.",
-  team1Image: "",
-
-  team2Name: "Mert Aydın",
-  team2Role: "Head of Video Production",
-  team2Bio: "Award-winning cinematographer and editor who has produced content for brands across 3 continents.",
-  team2Image: "",
-
-  team3Name: "Selin Kaya",
-  team3Role: "Brand Strategy Lead",
-  team3Bio: "Former brand consultant for Fortune 500 companies. Loves turning complex ideas into clear, powerful brand stories.",
-  team3Image: "",
-
-  ctaTitle: "READY TO CREATE SOMETHING GREAT?",
-  ctaButton: "Let's Talk →",
+const StatsMarquee = () => {
+  const items = [...STATS, ...STATS, ...STATS, ...STATS];
+  return (
+    <div className="overflow-hidden border-t border-black/10 py-3 mt-10 relative">
+      <motion.div
+        className="flex whitespace-nowrap"
+        animate={{ x: [0, '-50%'] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+      >
+        {items.map((item, i) => (
+          <span key={i} className="inline-flex items-center gap-5 text-xs font-medium tracking-[0.18em] text-black/40 pr-10" style={{ fontFamily: 'var(--font-inter)' }}>
+            {item}
+            <span className="text-black/20 text-[8px]">/</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
 };
 
-type AboutData = typeof defaultData;
+const CLIENTS = [
+  { name: 'Norda',      year: '2025', icon: <polygon points="24,4 44,40 4,40" fill="none" stroke="currentColor" strokeWidth="1.5" /> },
+  { name: 'Velin',      year: '2025', icon: <circle cx="24" cy="24" r="12" fill="currentColor" /> },
+  { name: 'Forma',      year: '2024', icon: <path d="M4,24 Q24,4 44,24 Q24,44 4,24Z" fill="none" stroke="currentColor" strokeWidth="1.5" /> },
+  { name: 'Lune',       year: '2023', icon: <><rect x="14" y="14" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"/><rect x="20" y="20" width="14" height="14" fill="currentColor"/></> },
+  { name: 'Studio Oko', year: '2023', icon: <><circle cx="17" cy="24" r="5" fill="currentColor"/><circle cx="31" cy="24" r="5" fill="currentColor"/></> },
+  { name: 'Aren',       year: '2022', icon: <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" strokeWidth="1.5"/> },
+];
+
+const TEAM = [
+  { name: 'Nida Yılmaz',  role: 'Kurucu & Yaratıcı Direktör', bg: '#e2ddd8' },
+  { name: 'Mert Aydın',   role: 'Video Prodüksiyon Direktörü',  bg: '#2b2d42' },
+  { name: 'Selin Kaya',   role: 'İçerik & Strateji Uzmanı',     bg: '#c9b99a' },
+];
+
+const fadeUp = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+};
 
 export default function AboutPage() {
-  const [data, setData] = useState<AboutData>(defaultData);
-
-  useEffect(() => {
-    getDoc(doc(db, "siteConfig", "about"))
-      .then((snap) => {
-        if (snap.exists()) setData({ ...defaultData, ...snap.data() });
-      })
-      .catch(console.error);
-  }, []);
-
-  const fadeUp = {
-    initial: { y: 40, opacity: 0 },
-    whileInView: { y: 0, opacity: 1 },
-    viewport: { once: true, margin: "-80px" },
-    transition: { duration: 0.7, ease: "easeOut" as const },
-  };
-
   return (
-    <main style={{ background: "#fff", minHeight: "100vh" }}>
-      <Header />
+    <>
+      <main className="relative z-10 bg-white">
+        <Header />
 
-      {/* ── HERO ── */}
-      <section style={{ position: "relative", minHeight: "100vh", background: "#0a0a0a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", paddingTop: "120px" }}>
-        {/* dot grid */}
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1px, transparent 0)", backgroundSize: "28px 28px", pointerEvents: "none" }} />
-
-        {/* big bg text */}
-        <div style={{ position: "absolute", bottom: "-4vw", left: "50%", transform: "translateX(-50%)", fontSize: "clamp(6rem, 18vw, 20rem)", fontWeight: 900, color: "rgba(255,255,255,0.03)", whiteSpace: "nowrap", fontFamily: "var(--font-archivo-black), sans-serif", letterSpacing: "-0.05em", userSelect: "none", pointerEvents: "none" }}>
-          NIDA
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ textAlign: "center", zIndex: 10, padding: "0 2rem" }}
-        >
-          <div style={{ display: "inline-block", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.3em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", marginBottom: "2rem", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "99px", padding: "0.5rem 1.2rem" }}>
-            {data.heroTagline}
+        {/* ── Hero Başlık ── */}
+        <div className="site-px pt-12">
+          <div className="flex items-end justify-between gap-8">
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[10vw] font-light leading-[0.9] tracking-tight text-black"
+              style={{ fontFamily: 'var(--font-inter)' }}
+            >
+              hakkımızda.
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="hidden md:block text-sm text-black/50 leading-relaxed max-w-[220px] text-right pb-3 shrink-0"
+              style={{ fontFamily: 'var(--font-inter)' }}
+            >
+              Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.
+            </motion.p>
           </div>
-          <h1 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(2.5rem, 6vw, 6rem)", fontWeight: 900, color: "#fff", lineHeight: 0.95, letterSpacing: "-0.04em", margin: "0 auto 2rem", maxWidth: "900px", textTransform: "uppercase" }}>
-            {data.heroQuote}
-          </h1>
-        </motion.div>
 
-        {/* scroll indicator */}
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ position: "absolute", bottom: "2.5rem", color: "rgba(255,255,255,0.3)", fontSize: "1.5rem" }}
-        >
-          ↓
-        </motion.div>
-
-        {/* wave */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", overflow: "hidden", lineHeight: 0, transform: "translateY(1px)" }}>
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ display: "block", width: "200%", height: "60px", fill: "#fff" }}>
-            <path d="M0,0 C150,0 150,100 300,100 C450,100 450,0 600,0 C750,0 750,100 900,100 C1050,100 1050,0 1200,0 L1200,120 L0,120 Z" />
-          </svg>
-        </div>
-      </section>
-
-      {/* ── WHO WE ARE ── */}
-      <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "8rem 2rem" }}>
-        <motion.div {...fadeUp} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
-          <div>
-            <span style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.25em", color: "#aaa", textTransform: "uppercase" }}>01 — About</span>
-            <h2 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-0.03em", margin: "1rem 0 0", textTransform: "uppercase", color: "#0a0a0a" }}>
-              {data.whoTitle}
-            </h2>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <p style={{ fontSize: "1.15rem", color: "#444", lineHeight: 1.75, margin: 0 }}>{data.whoPara1}</p>
-            <p style={{ fontSize: "1.15rem", color: "#444", lineHeight: 1.75, margin: 0 }}>{data.whoPara2}</p>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── STATS ── */}
-      <section style={{ background: "#0a0a0a", padding: "6rem 2rem" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem", textAlign: "center" }}>
-          {[
-            { v: data.stat1Value, l: data.stat1Label },
-            { v: data.stat2Value, l: data.stat2Label },
-            { v: data.stat3Value, l: data.stat3Label },
-            { v: data.stat4Value, l: data.stat4Label },
-          ].map((s, i) => (
-            <motion.div key={i} {...fadeUp} transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}>
-              <div style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(2.5rem, 5vw, 5rem)", fontWeight: 900, color: "#fff", lineHeight: 1 }}>{s.v}</div>
-              <div style={{ fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.15em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", marginTop: "0.75rem" }}>{s.l}</div>
+          <div className="relative">
+            <StatsMarquee />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="absolute right-0 bottom-3 text-right hidden md:block"
+            >
+              <div className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>2020–2025</div>
+              <div className="text-xs text-black/50 font-semibold" style={{ fontFamily: 'var(--font-inter)' }}>© Nida Studio</div>
             </motion.div>
-          ))}
+          </div>
         </div>
-      </section>
 
-      {/* ── MISSION & VISION ── */}
-      <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "8rem 2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem" }}>
-        {[
-          { title: data.missionTitle, text: data.missionText, num: "02" },
-          { title: data.visionTitle, text: data.visionText, num: "03" },
-        ].map((item, i) => (
-          <motion.div key={i} {...fadeUp} transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }} style={{ borderTop: "2px solid #0a0a0a", paddingTop: "2rem" }}>
-            <span style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.25em", color: "#aaa", textTransform: "uppercase" }}>{item.num} —</span>
-            <h2 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(1.5rem, 3vw, 2.5rem)", fontWeight: 900, margin: "0.75rem 0 1.5rem", textTransform: "uppercase", color: "#0a0a0a", letterSpacing: "-0.02em" }}>
-              {item.title}
-            </h2>
-            <p style={{ fontSize: "1.1rem", color: "#555", lineHeight: 1.75, margin: 0 }}>{item.text}</p>
-          </motion.div>
-        ))}
-      </section>
+        {/* ── Hero Görsel ── */}
+        <motion.div {...fadeUp} className="site-px mt-8">
+          <div
+            className="w-full relative overflow-hidden rounded-xl bg-[#e8e2da]"
+            style={{ aspectRatio: '21 / 9' }}
+          >
+            <Image
+              src="/about-hero.jpg"
+              alt="Nida Studio"
+              fill
+              className="object-cover object-center"
+              sizes="100vw"
+              priority
+            />
+            {/* Placeholder — görsel yokken */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center opacity-20">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                  <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
-      {/* ── VALUES ── */}
-      <section style={{ background: "#f7f5f0", padding: "8rem 2rem" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <motion.div {...fadeUp} style={{ marginBottom: "4rem" }}>
-            <span style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.25em", color: "#aaa", textTransform: "uppercase" }}>04 — Values</span>
-            <h2 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, margin: "1rem 0 0", textTransform: "uppercase", color: "#0a0a0a", letterSpacing: "-0.03em" }}>
-              WHAT WE STAND FOR
-            </h2>
-          </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "2px", background: "#ddd" }}>
+        {/* ── Müşterilerimiz ── */}
+        <motion.div {...fadeUp} className="site-px mt-24 pb-20">
+          <div className="flex justify-between items-center mb-12">
+            <span className="text-xs text-black/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Müşterilerimiz</span>
+            <span className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>(02)</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16 items-start">
+            {/* Sol açıklama */}
+            <div className="md:pt-4">
+              <h2 className="text-2xl font-semibold text-black leading-[1.25] tracking-tight mb-4" style={{ fontFamily: 'var(--font-inter)' }}>
+                Net, anlamlı ve kalıcı işler yaratmak için vizyoner markalarla işbirliği yapıyoruz.
+              </h2>
+              <p className="text-sm text-black/45 leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
+                İster global markalar ister yeni girişimler olsun; güven, niyet ve ortak vizyon üzerine kurulu her ilişkiye değer veriyoruz.
+              </p>
+            </div>
+
+            {/* Sağ — müşteri kartları */}
+            <div className="grid grid-cols-3 gap-3">
+              {CLIENTS.map((client, i) => (
+                <motion.div
+                  key={client.name}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                  className="border border-black/10 rounded-lg p-5 flex flex-col justify-between aspect-square"
+                >
+                  <span className="text-xs text-black/35 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>{client.name}</span>
+                  <div className="flex items-center justify-center py-2">
+                    <svg width="48" height="48" viewBox="0 0 48 48" className="text-black/70">
+                      {client.icon}
+                    </svg>
+                  </div>
+                  <span className="text-xs text-black/30 font-medium text-right" style={{ fontFamily: 'var(--font-inter)' }}>{client.year}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Ekibimiz ── */}
+        <motion.div {...fadeUp} className="site-px pb-0">
+          <div className="bg-black rounded-2xl px-10 md:px-14 py-14 md:py-16">
+            {/* Üst etiket */}
+            <div className="flex justify-between items-center mb-10">
+              <span className="text-xs text-white/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Ekibimiz</span>
+              <span className="text-xs text-white/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>(03)</span>
+            </div>
+
+            {/* Başlık + buton */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-semibold text-white leading-[1.1] tracking-tight max-w-[520px]" style={{ fontFamily: 'var(--font-inter)' }}>
+                  Video editçiler, yaratıcı kafalar ve hikaye anlatıcılarından oluşan bir aileyiz.
+                </h2>
+                <p className="text-sm text-white/45 mt-4 max-w-[360px] leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
+                  Her proje, yakın işbirliği ve anlamlı üretime olan ortak bağlılıkla şekillenir.
+                </p>
+              </div>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-all duration-200 shrink-0 self-start md:self-auto"
+                style={{ fontFamily: 'var(--font-inter)' }}
+              >
+                Bize Katılın +
+              </Link>
+            </div>
+
+            {/* Ekip kartları */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {TEAM.map((member, i) => (
+                <motion.div
+                  key={member.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55, delay: i * 0.08 }}
+                >
+                  <div
+                    className="w-full relative overflow-hidden rounded-xl mb-4"
+                    style={{ aspectRatio: '4/5', backgroundColor: member.bg }}
+                  >
+                    <Image
+                      src={`/team/${member.name.toLowerCase().replace(' ', '-')}.jpg`}
+                      alt={member.name}
+                      fill
+                      className="object-cover object-top"
+                      sizes="33vw"
+                    />
+                  </div>
+                  <div className="text-white font-semibold text-base tracking-tight" style={{ fontFamily: 'var(--font-inter)' }}>{member.name}</div>
+                  <div className="text-white/45 text-xs font-medium mt-0.5" style={{ fontFamily: 'var(--font-inter)' }}>{member.role}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Hikayemiz ── */}
+        <motion.div {...fadeUp} className="site-px mt-20 pb-20">
+          <div className="flex justify-between items-center mb-12">
+            <span className="text-xs text-black/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Hikayemiz</span>
+            <span className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>(04)</span>
+          </div>
+
+          <h2 className="text-3xl md:text-5xl font-semibold leading-[1.1] tracking-tight mb-6 max-w-[900px]" style={{ fontFamily: 'var(--font-inter)' }}>
+            <span className="text-black">Nida, görüntünün </span>
+            <span className="text-black/25">bir markayı dönüştürebileceğine olan güçlü inançla doğdu.</span>
+          </h2>
+
+          <p className="text-sm text-black/50 leading-relaxed max-w-[400px] mb-14" style={{ fontFamily: 'var(--font-inter)' }}>
+            Yaratıcı endüstrideki gürültü ve karmaşadan uzaklaşarak; farklı, net, niyet ve sadeliğe odaklanan bir stüdyo kurmak için yola çıktık.
+          </p>
+
+          {/* İki görsel */}
+          <div className="grid grid-cols-2 gap-4">
             {[
-              { t: data.value1Title, d: data.value1Text },
-              { t: data.value2Title, d: data.value2Text },
-              { t: data.value3Title, d: data.value3Text },
-              { t: data.value4Title, d: data.value4Text },
-            ].map((v, i) => (
-              <motion.div key={i} {...fadeUp} transition={{ duration: 0.5, delay: i * 0.1 }} style={{ background: "#fff", padding: "3rem", position: "relative" }}>
-                <div style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.2em", color: "#bbb", marginBottom: "1.5rem" }}>0{i + 1}</div>
-                <h3 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "1.4rem", fontWeight: 900, margin: "0 0 1rem", textTransform: "uppercase", letterSpacing: "-0.02em", color: "#0a0a0a" }}>{v.t}</h3>
-                <p style={{ fontSize: "1rem", color: "#666", lineHeight: 1.7, margin: 0 }}>{v.d}</p>
-              </motion.div>
+              { label: 'İlk ofisimiz (2020)', bg: '#e8e4de' },
+              { label: 'Mevcut ofisimiz (2025)', bg: '#1a1208' },
+            ].map((img) => (
+              <div key={img.label} className="relative">
+                <span className="text-xs text-black/35 font-medium block text-center mb-2" style={{ fontFamily: 'var(--font-inter)' }}>{img.label}</span>
+                <div
+                  className="w-full rounded-xl overflow-hidden relative"
+                  style={{ aspectRatio: '16/10', backgroundColor: img.bg }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1">
+                      <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── TEAM ── */}
-      <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "8rem 2rem" }}>
-        <motion.div {...fadeUp} style={{ marginBottom: "4rem" }}>
-          <span style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.25em", color: "#aaa", textTransform: "uppercase" }}>05 — Team</span>
-          <h2 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, margin: "1rem 0 0", textTransform: "uppercase", color: "#0a0a0a", letterSpacing: "-0.03em" }}>
-            THE PEOPLE BEHIND IT
-          </h2>
         </motion.div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem" }}>
-          {[
-            { name: data.team1Name, role: data.team1Role, bio: data.team1Bio, img: data.team1Image },
-            { name: data.team2Name, role: data.team2Role, bio: data.team2Bio, img: data.team2Image },
-            { name: data.team3Name, role: data.team3Role, bio: data.team3Bio, img: data.team3Image },
-          ].map((member, i) => (
-            <motion.div key={i} {...fadeUp} transition={{ duration: 0.6, delay: i * 0.15 }}>
-              <div style={{ width: "100%", aspectRatio: "4/5", background: "#0a0a0a", borderRadius: "24px", marginBottom: "1.5rem", overflow: "hidden" }}>
-                {member.img
-                  ? <img src={member.img} alt={member.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "4rem", color: "rgba(255,255,255,0.1)", fontFamily: "var(--font-archivo-black)" }}>
-                      {member.name.charAt(0)}
-                    </div>
-                }
-              </div>
-              <h3 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "1.3rem", fontWeight: 900, margin: "0 0 0.25rem", textTransform: "uppercase", letterSpacing: "-0.02em" }}>{member.name}</h3>
-              <div style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.12em", color: "#999", textTransform: "uppercase", marginBottom: "1rem" }}>{member.role}</div>
-              <p style={{ fontSize: "0.95rem", color: "#666", lineHeight: 1.7, margin: 0 }}>{member.bio}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      </main>
 
-      {/* ── CTA ── */}
-      <section style={{ background: "#0a0a0a", padding: "8rem 2rem", textAlign: "center" }}>
-        <motion.div {...fadeUp}>
-          <h2 style={{ fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "clamp(2rem, 5vw, 5rem)", fontWeight: 900, color: "#fff", textTransform: "uppercase", letterSpacing: "-0.03em", margin: "0 auto 3rem", maxWidth: "800px", lineHeight: 0.95 }}>
-            {data.ctaTitle}
-          </h2>
-          <a href="/contact" style={{ display: "inline-block", background: "#fff", color: "#0a0a0a", fontFamily: "var(--font-archivo-black), sans-serif", fontSize: "1.2rem", fontWeight: 900, letterSpacing: "-0.01em", padding: "1.2rem 3rem", borderRadius: "99px", textDecoration: "none", textTransform: "uppercase", transition: "transform 0.2s, opacity 0.2s" }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-          >
-            {data.ctaButton}
-          </a>
-        </motion.div>
-      </section>
-
-      <Footer />
-    </main>
+      <StickyFooterReveal />
+    </>
   );
 }

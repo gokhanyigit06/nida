@@ -4,12 +4,12 @@ import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDejyLHFbx_jItsMMAmfv0J2Ut_UwO1QdM",
-  authDomain: "nida-343d8.firebaseapp.com",
-  projectId: "nida-343d8",
-  storageBucket: "nida-343d8.firebasestorage.app",
-  messagingSenderId: "874510083151",
-  appId: "1:874510083151:web:5266ef93e9d56829c2f63a"
+  apiKey: "AIzaSyB-1T61IYfBhLkXzMmCiNbsR9D6RpzmW_M",
+  authDomain: "nidayeni-14b20.firebaseapp.com",
+  projectId: "nidayeni-14b20",
+  storageBucket: "nidayeni-14b20.firebasestorage.app",
+  messagingSenderId: "832471668176",
+  appId: "1:832471668176:web:cbe2cba7493ac12cecd5d5",
 };
 
 // Initialize Firebase
