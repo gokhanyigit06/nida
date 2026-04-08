@@ -108,15 +108,7 @@ export default function ContactPage() {
                 ))}
               </div>
 
-              {/* Adres */}
-              <div className="pt-8">
-                <p className="text-sm font-semibold text-black mb-1" style={{ fontFamily: 'var(--font-inter)' }}>
-                  Ziyaret edin:
-                </p>
-                <p className="text-sm text-black/50 leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
-                  {info.address}
-                </p>
-              </div>
+
             </div>
 
             {/* ── Sağ: Form ── */}
