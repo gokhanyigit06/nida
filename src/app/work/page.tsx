@@ -8,23 +8,20 @@ import { subscribeWorks, type Work } from '@/lib/db';
 
 const FILTERS = [
   'Tüm Projeler',
-  'Sanat Yönetimi',
-  'Strateji',
-  'Dijital Tasarım',
-  'Kurumsal Kimlik',
-  'Web Tasarımı',
+  'Video Kurgu',
+  'Motion Design',
 ];
 
 // Fallback — Firestore boşken gösterilir
 const FALLBACK_WORKS: Work[] = [
-  { id: '1', title: 'Lune',  category: 'Sanat Yönetimi',  year: '2025', videoUrl: '', thumbUrl: '', visible: true, order: 1 },
-  { id: '2', title: 'Aren',  category: 'Kurumsal Kimlik', year: '2025', videoUrl: '', thumbUrl: '', visible: true, order: 2 },
-  { id: '3', title: 'Nero',  category: 'Dijital Tasarım', year: '2024', videoUrl: '', thumbUrl: '', visible: true, order: 3 },
-  { id: '4', title: 'Vela',  category: 'Web Tasarımı',    year: '2024', videoUrl: '', thumbUrl: '', visible: true, order: 4 },
-  { id: '5', title: 'Mavi',  category: 'Dijital Tasarım', year: '2024', videoUrl: '', thumbUrl: '', visible: true, order: 5 },
-  { id: '6', title: 'Koru',  category: 'Kurumsal Kimlik', year: '2023', videoUrl: '', thumbUrl: '', visible: true, order: 6 },
-  { id: '7', title: 'Ata',   category: 'Strateji',        year: '2023', videoUrl: '', thumbUrl: '', visible: true, order: 7 },
-  { id: '8', title: 'Sol',   category: 'Sanat Yönetimi',  year: '2023', videoUrl: '', thumbUrl: '', visible: true, order: 8 },
+  { id: '1', title: 'Lune',  category: 'Video Kurgu',   year: '2025', videoUrl: '', thumbUrl: '', visible: true, order: 1 },
+  { id: '2', title: 'Aren',  category: 'Motion Design', year: '2025', videoUrl: '', thumbUrl: '', visible: true, order: 2 },
+  { id: '3', title: 'Nero',  category: 'Video Kurgu',   year: '2024', videoUrl: '', thumbUrl: '', visible: true, order: 3 },
+  { id: '4', title: 'Vela',  category: 'Motion Design', year: '2024', videoUrl: '', thumbUrl: '', visible: true, order: 4 },
+  { id: '5', title: 'Mavi',  category: 'Video Kurgu',   year: '2024', videoUrl: '', thumbUrl: '', visible: true, order: 5 },
+  { id: '6', title: 'Koru',  category: 'Motion Design', year: '2023', videoUrl: '', thumbUrl: '', visible: true, order: 6 },
+  { id: '7', title: 'Ata',   category: 'Video Kurgu',   year: '2023', videoUrl: '', thumbUrl: '', visible: true, order: 7 },
+  { id: '8', title: 'Sol',   category: 'Motion Design', year: '2023', videoUrl: '', thumbUrl: '', visible: true, order: 8 },
 ];
 
 const BG_COLORS = ['#e9e5e0','#1a1208','#d4cfc9','#2b2d42','#3d5a80','#3a5a40','#c9b99a','#1c1c1e'];

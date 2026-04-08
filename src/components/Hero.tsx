@@ -3,16 +3,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const SERVICES = [
-  'MARKA KİMLİĞİ',
-  'UI / UX',
-  'DİJİTAL PAZARLAMA',
-  'E-TİCARET',
-  'SEO',
-  'SOSYAL MEDYA',
-  'İÇERİK ÜRETİMİ',
-  'MARKA STRATEJİSİ',
-  'WEB TASARIMI',
-  'REKLAM YÖNETİMİ',
+  'VIDEO KURGU',
+  'MOTION DESIGN',
 ];
 
 const Marquee = () => {
