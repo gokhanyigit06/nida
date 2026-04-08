@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import StickyFooterReveal from '@/components/StickyFooterReveal';
-import { getAboutContent, AboutContent } from '@/lib/db';
+import { getAboutContent, getBrands, AboutContent, Brand } from '@/lib/db';
 
 const DEFAULTS: AboutContent = {
   heroDesc: "Karmaşayı sadeliğe dönüştürerek, en güçlü etkiyi yaratan bir tasarım stüdyosuyuz.",
@@ -18,21 +18,6 @@ const DEFAULTS: AboutContent = {
 
 
 
-const CLIENTS = [
-  { name: 'Norda',      year: '2025', icon: <polygon points="24,4 44,40 4,40" fill="none" stroke="currentColor" strokeWidth="1.5" /> },
-  { name: 'Velin',      year: '2025', icon: <circle cx="24" cy="24" r="12" fill="currentColor" /> },
-  { name: 'Forma',      year: '2024', icon: <path d="M4,24 Q24,4 44,24 Q24,44 4,24Z" fill="none" stroke="currentColor" strokeWidth="1.5" /> },
-  { name: 'Lune',       year: '2023', icon: <><rect x="14" y="14" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5"/><rect x="20" y="20" width="14" height="14" fill="currentColor"/></> },
-  { name: 'Studio Oko', year: '2023', icon: <><circle cx="17" cy="24" r="5" fill="currentColor"/><circle cx="31" cy="24" r="5" fill="currentColor"/></> },
-  { name: 'Aren',       year: '2022', icon: <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" strokeWidth="1.5"/> },
-];
-
-const TEAM = [
-  { name: 'Nida Yılmaz',  role: 'Kurucu & Yaratıcı Direktör', bg: '#e2ddd8' },
-  { name: 'Mert Aydın',   role: 'Video Prodüksiyon Direktörü',  bg: '#2b2d42' },
-  { name: 'Selin Kaya',   role: 'İçerik & Strateji Uzmanı',     bg: '#c9b99a' },
-];
-
 const fadeUp = {
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
@@ -42,11 +27,16 @@ const fadeUp = {
 
 export default function AboutPage() {
   const [content, setContent] = useState<AboutContent>(DEFAULTS);
+  const [brands, setBrands] = useState<Brand[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    getAboutContent().then((data) => {
-      if (data) setContent(data);
+    Promise.all([
+      getAboutContent(),
+      getBrands(),
+    ]).then(([aboutData, brandData]) => {
+      if (aboutData) setContent(aboutData);
+      setBrands(brandData);
       setLoaded(true);
     });
   }, []);
@@ -108,24 +98,28 @@ export default function AboutPage() {
             <div className="md:pt-4">
             </div>
 
-            {/* Sağ — müşteri kartları */}
+            {/* Marka kartları */}
             <div className="grid grid-cols-3 gap-3">
-              {CLIENTS.map((client, i) => (
+              {brands.map((brand, i) => (
                 <motion.div
-                  key={client.name}
+                  key={brand.id}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
                   className="border border-black/10 rounded-lg p-5 flex flex-col justify-between aspect-square"
                 >
-                  <span className="text-xs text-black/35 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>{client.name}</span>
+                  <span className="text-xs text-black/35 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>{brand.name}</span>
                   <div className="flex items-center justify-center py-2">
-                    <svg width="48" height="48" viewBox="0 0 48 48" className="text-black/70">
-                      {client.icon}
-                    </svg>
+                    {brand.logoUrl ? (
+                      <Image src={brand.logoUrl} alt={brand.name} width={80} height={48} className="object-contain max-h-12" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center">
+                        <span className="text-lg font-bold text-black/20" style={{ fontFamily: 'var(--font-inter)' }}>{brand.name.charAt(0)}</span>
+                      </div>
+                    )}
                   </div>
-                  <span className="text-xs text-black/30 font-medium text-right" style={{ fontFamily: 'var(--font-inter)' }}>{client.year}</span>
+                  <span className="text-xs text-black/30 font-medium text-right" style={{ fontFamily: 'var(--font-inter)' }}>{brand.year}</span>
                 </motion.div>
               ))}
             </div>

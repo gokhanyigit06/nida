@@ -163,6 +163,37 @@ export async function deleteService(id: string) {
   await deleteDoc(doc(db, "services", id));
 }
 
+// ── MARKALAR ──────────────────────────────────────────────────
+
+export type Brand = {
+  id: string;
+  name: string;
+  year: string;
+  logoUrl: string;
+  order: number;
+};
+
+export const brandsCollection = collection(db, "brands");
+
+export async function getBrands(): Promise<Brand[]> {
+  const q = query(brandsCollection, orderBy("order", "asc"));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Brand));
+}
+
+export async function addBrand(data: Omit<Brand, "id">) {
+  await addDoc(brandsCollection, { ...data, createdAt: serverTimestamp() });
+}
+
+export async function updateBrand(id: string, data: Partial<Brand>) {
+  await updateDoc(doc(db, "brands", id), data);
+}
+
+export async function deleteBrand(id: string) {
+  await deleteDoc(doc(db, "brands", id));
+}
+
+
 // ── HIZMETLER CONFIG (CTA bölümü) ────────────────────────────
 
 export type HizmetlerConfig = {
