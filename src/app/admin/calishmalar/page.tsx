@@ -11,8 +11,8 @@ import {
 } from "@/lib/db";
 
 const CATEGORIES = [
-  "Sanat Yönetimi","Kurumsal Kimlik","Dijital Tasarım",
-  "Web Tasarımı","Dijital Pazarlama","E-Ticaret","Strateji","Sosyal Medya",
+  "Video Kurgu",
+  "Motion Design",
 ];
 
 const emptyWork: Omit<Work, "id"> = {
