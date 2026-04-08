@@ -30,7 +30,7 @@ const Header = () => {
         {/* Desktop Center Nav */}
         <nav className="hidden md:flex items-center gap-10">
           {[
-            { label: 'çalışmalar', href: '/work' },
+            { label: 'projeler', href: '/work' },
             { label: 'hizmetler', href: '/hizmetler' },
             { label: 'hakkımda', href: '/about' },
           ].map((item) => (
@@ -82,7 +82,7 @@ const Header = () => {
           >
             <nav className="flex flex-col gap-8">
               {[
-                { label: 'çalışmalar', href: '/work' },
+                { label: 'projeler', href: '/work' },
                 { label: 'hizmetler', href: '/hizmetler' },
                 { label: 'hakkımda', href: '/about' },
                 { label: 'iletişim', href: '/contact' },

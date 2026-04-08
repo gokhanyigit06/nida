@@ -112,7 +112,7 @@ export default function WorkPage() {
           <div className="flex items-end justify-between gap-8">
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-[10vw] font-light leading-[0.9] tracking-tight text-black" style={{ fontFamily: 'var(--font-inter)' }}>
-              Projects.
+              projeler.
             </motion.h1>
           </div>
 

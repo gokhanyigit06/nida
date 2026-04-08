@@ -99,16 +99,13 @@ export default function AboutPage() {
         {/* ── Müşterilerimiz ── */}
         <motion.div {...fadeUp} className="site-px mt-24 pb-20">
           <div className="flex justify-between items-center mb-12">
-            <span className="text-xs text-black/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Müşterilerim</span>
+            <span className="text-xs text-black/40 font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-inter)' }}>/Markalarım</span>
             <span className="text-xs text-black/30 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>(02)</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16 items-start">
             {/* Sol başlık */}
             <div className="md:pt-4">
-              <h2 className="text-2xl font-semibold text-black leading-[1.25] tracking-tight" style={{ fontFamily: 'var(--font-inter)' }}>
-                Markalar
-              </h2>
             </div>
 
             {/* Sağ — müşteri kartları */}
