@@ -6,21 +6,25 @@ import StickyFooterReveal from '@/components/StickyFooterReveal';
 import { getContactInfo, ContactInfo } from '@/lib/db';
 
 const DEFAULTS: ContactInfo = {
-  email: "merhaba@nidastudio.com",
-  phone: "+90 500 123 45 67",
-  instagram: "https://instagram.com/nidastudio",
-  twitter: "https://twitter.com/nidastudio",
-  linkedin: "https://linkedin.com/company/nidastudio",
-  address: "Zorlu Center, Levent, İstanbul, Türkiye",
+  email: "",
+  phone: "",
+  instagram: "",
+  twitter: "",
+  linkedin: "",
+  address: "",
 };
 
 export default function ContactPage() {
   const [form, setForm] = useState({ isim: '', email: '', mesaj: '' });
   const [sent, setSent] = useState(false);
   const [info, setInfo] = useState<ContactInfo>(DEFAULTS);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    getContactInfo().then((data) => { if (data) setInfo(data); });
+    getContactInfo().then((data) => {
+      if (data) setInfo(data);
+      setLoaded(true);
+    });
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -60,7 +64,7 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 border-t border-black/10 pt-12">
 
             {/* ── Sol: İletişim Bilgileri ── */}
-            <div className="flex flex-col gap-0">
+            <div className={`flex flex-col gap-0 transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
               {/* E-posta + Telefon */}
               <div className="pb-8 border-b border-black/8">
                 <a
