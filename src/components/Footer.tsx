@@ -11,24 +11,22 @@ const Footer = () => {
       <div className="max-w-[1400px] mx-auto relative z-10">
         
         {/* Huge Text Section */}
-        <div className="relative text-center mb-16 md:mb-32 flex flex-col items-center">
+        <div className="text-center mb-16 md:mb-24 flex flex-col items-center pt-8 md:pt-12">
           
           {/* Rotating Star */}
           <motion.div 
              animate={{ rotate: 360 }}
              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-             className="absolute -top-16 md:-top-24 left-1/2 -translate-x-1/2 w-8 h-8 md:w-12 md:h-12 opacity-80"
+             className="w-8 h-8 md:w-12 md:h-12 opacity-80 mb-8"
           >
              <svg viewBox="0 0 24 24" fill="#ffffff" className="w-full h-full">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
              </svg>
           </motion.div>
           
-          <div className="pt-10">
-            <h1 className="heading-font text-[14vw] md:text-[13.5vw] leading-[0.8] tracking-[-0.05em] uppercase m-0 drop-shadow-2xl">
-              NİDA STUDIO
-            </h1>
-          </div>
+          <h1 className="heading-font text-[14vw] md:text-[13.5vw] leading-[0.8] tracking-[-0.05em] uppercase m-0 drop-shadow-2xl">
+            NİDA STUDIO
+          </h1>
         </div>
 
         {/* Bottom Bar */}
