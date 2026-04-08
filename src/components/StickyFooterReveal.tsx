@@ -14,22 +14,28 @@ export default function StickyFooterReveal() {
   useEffect(() => {
     if (!footerRef.current) return;
 
-    const measure = () => {
-      setFooterHeight(footerRef.current!.offsetHeight);
-    };
+    // ResizeObserver ile footer yüksekliğini her değişimde güncelle
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setFooterHeight(entry.contentRect.height);
+      }
+    });
 
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    observer.observe(footerRef.current);
+
+    // İlk ölçüm — observer bazen ilk frame'i kaçırabilir
+    setFooterHeight(footerRef.current.offsetHeight);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
     <>
-      {/* Spacer: footer yüksekliği kadar yer açar, kayma tamamlandığında durur */}
-      <div style={{ height: footerHeight }} aria-hidden />
+      {/* Spacer: footer yüksekliği kadar yer açar */}
+      <div style={{ height: footerHeight || undefined }} aria-hidden />
 
       {/* Fixed footer — içeriğin altında z-0 */}
-      <div ref={footerRef} className="fixed bottom-0 left-0 right-0 z-0">
+      <div ref={footerRef} className="fixed bottom-0 left-0 right-0 z-0 overflow-visible">
         <Footer />
       </div>
     </>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white site-px py-20 md:py-32 relative overflow-hidden">
+    <footer className="bg-black text-white site-px py-20 md:py-32 relative">
       {/* Top Scalloped Border - This depends on your global CSS */}
       <div className="scalloped-top brightness-[10] absolute top-0 left-0 w-full h-8 z-10" />
 
