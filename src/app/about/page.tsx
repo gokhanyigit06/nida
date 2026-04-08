@@ -104,14 +104,11 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16 items-start">
-            {/* Sol açıklama */}
+            {/* Sol başlık */}
             <div className="md:pt-4">
-              <h2 className="text-2xl font-semibold text-black leading-[1.25] tracking-tight mb-4" style={{ fontFamily: 'var(--font-inter)' }}>
-                {content.clientsDesc}
+              <h2 className="text-2xl font-semibold text-black leading-[1.25] tracking-tight" style={{ fontFamily: 'var(--font-inter)' }}>
+                Markalar
               </h2>
-              <p className="text-sm text-black/45 leading-relaxed" style={{ fontFamily: 'var(--font-inter)' }}>
-                İster global markalar ister yeni girişimler olsun; güven, niyet ve ortak vizyon üzerine kurulu her ilişkiye değer veriyoruz.
-              </p>
             </div>
 
             {/* Sağ — müşteri kartları */}
